@@ -616,6 +616,7 @@ footer {
   color: var(--mid-green);
 }
 .coffee-viral {
+  display: block;
   font-family: var(--font-display);
   font-size: clamp(0.9rem, 2vw, 1.4rem);
   text-transform: uppercase;
@@ -624,7 +625,11 @@ footer {
   text-align: center;
   margin-top: 3.5rem;
   letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 150ms ease;
 }
+.coffee-viral:hover { opacity: 1; }
 
 /* ============================================================
    SANDOS SECTION
