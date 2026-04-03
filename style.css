@@ -723,6 +723,20 @@ footer {
   vertical-align: middle;
 }
 
+/* Menu page photo grid (between sections) */
+.menu-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  background: var(--green);
+}
+.menu-photo-grid img {
+  width: 100%;
+  height: clamp(200px, 25vw, 380px);
+  object-fit: cover;
+  display: block;
+}
+
 /* Sandos divider photo */
 .sandos-photo {
   width: 100%;
@@ -748,15 +762,18 @@ footer {
   gap: 5rem;
   align-items: start;
 }
-.trouble-photo {
-  overflow: hidden;
+.trouble-photos {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
   position: sticky;
   top: calc(var(--nav-h) + 2rem);
 }
-.trouble-photo img {
+.trouble-photos img {
   width: 100%;
-  height: clamp(300px, 45vw, 560px);
+  height: clamp(200px, 22vw, 320px);
   object-fit: cover;
+  display: block;
 }
 
 .trouble-list {}
@@ -898,8 +915,8 @@ footer {
 @media (max-width: 900px) {
   .coffee-cols        { grid-template-columns: 1fr; gap: 3rem; }
   .trouble-layout     { grid-template-columns: 1fr; }
-  .trouble-photo      { position: static; order: -1; }
-  .trouble-photo img  { height: 320px; }
+  .trouble-photos      { position: static; order: -1; }
+  .trouble-photos img  { height: 240px; }
 }
 
 @media (max-width: 768px) {
@@ -914,6 +931,7 @@ footer {
   .about-venue-photo img { height: 240px; }
 
   .sandos-grid { grid-template-columns: 1fr; }
+  .menu-photo-grid { grid-template-columns: repeat(2, 1fr); }
   .sando-card { padding: 1.5rem 0 !important; border-left: none !important; }
   .sando-card:hover { padding-left: 0 !important; }
 
