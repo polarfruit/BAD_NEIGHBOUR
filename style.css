@@ -1015,6 +1015,7 @@ footer {
   .menu-photo-grid { grid-template-columns: repeat(2, 1fr); }
   .sando-card { padding: 1.5rem 1.25rem !important; border-left: none !important; text-align: center; }
   .sando-card:hover { padding-left: 1.25rem !important; }
+  .sando-card[style*="max-width"] { max-width: 100% !important; }
   .sando-thumb { width: calc(100% + 2.5rem); margin-left: -1.25rem; margin-right: -1.25rem; }
   .sando-card:nth-child(even) .sando-thumb { margin-left: -1.25rem; }
   .sando-header { justify-content: center; gap: 0.5rem; }
