@@ -180,9 +180,19 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ----------------------------------------------------------
-     PAUSE CAROUSELS ON HOVER
+     CAROUSEL — force start after all images loaded, pause on hover
   ---------------------------------------------------------- */
-  document.querySelectorAll('.photo-carousel-track').forEach(track => {
+  const carouselTracks = document.querySelectorAll('.photo-carousel-track');
+
+  // Ensure animation is running once images have loaded and widths are known
+  window.addEventListener('load', () => {
+    carouselTracks.forEach(track => {
+      track.style.animationPlayState = 'running';
+    });
+  });
+
+  // Pause on hover
+  carouselTracks.forEach(track => {
     track.addEventListener('mouseenter', () => {
       track.style.animationPlayState = 'paused';
     });
