@@ -472,8 +472,8 @@ footer {
   letter-spacing: 0.28em;
   color: var(--cream);
   opacity: 0.45;
-  margin-top: 5px;
   text-transform: uppercase;
+  vertical-align: middle;
 }
 .footer-meta {
   display: flex;
