@@ -990,6 +990,18 @@ footer {
   .hero-tagline { margin-top: 0; }
   .hero-cta { margin-top: 1.25rem; }
 
+  .about-text h2 br { display: none; }
+  .about-text h2 { font-size: clamp(2rem, 10vw, 3rem); }
+
+  .about-text .btn,
+  .about-info .btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 1.1rem 1.5rem;
+    font-size: 1rem;
+  }
+
   .about-inner {
     grid-template-columns: 1fr;
     gap: 3rem;
