@@ -301,6 +301,8 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   width: max-content;
   animation: marquee 22s linear infinite;
+  animation-delay: 0s;
+  will-change: transform;
 }
 .marquee-track:hover { animation-play-state: paused; }
 .marquee-item {
@@ -733,7 +735,9 @@ footer {
   display: flex;
   gap: 3px;
   width: max-content;
-  animation: carousel-scroll 40s linear infinite;
+  animation: carousel-scroll 41s linear infinite;
+  animation-delay: 0s;
+  will-change: transform;
 }
 .photo-carousel-track:hover {
   animation-play-state: paused;
