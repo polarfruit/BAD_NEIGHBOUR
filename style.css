@@ -735,7 +735,7 @@ footer {
   display: flex;
   gap: 3px;
   width: max-content;
-  animation: carousel-scroll 42s linear infinite;
+  animation: carousel-scroll 43s linear infinite;
   animation-delay: 0s;
   animation-play-state: running;
   will-change: transform;
