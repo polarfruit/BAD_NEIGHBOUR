@@ -431,6 +431,10 @@ a { text-decoration: none; color: inherit; }
   height: 340px;
   object-fit: cover;
   object-position: center 30%;
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 /* ============================================================
@@ -778,6 +782,10 @@ footer {
   height: clamp(280px, 40vw, 560px);
   object-fit: cover;
   object-position: center 50%;
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 /* ============================================================
@@ -804,6 +812,10 @@ footer {
   height: clamp(200px, 22vw, 320px);
   object-fit: cover;
   display: block;
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .trouble-list {}
