@@ -462,7 +462,7 @@ footer {
   line-height: 1;
 }
 .footer-logo span {
-  display: block;
+  display: inline;
   font-family: var(--font-body);
   font-size: 0.6rem;
   font-weight: 600;
