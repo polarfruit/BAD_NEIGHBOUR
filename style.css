@@ -284,10 +284,6 @@ a { text-decoration: none; color: inherit; }
   justify-content: center;
 }
 
-.hero-bottom {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-}
 
 /* ============================================================
    MARQUEE
