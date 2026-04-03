@@ -984,7 +984,8 @@ footer {
   .hero-content {
     flex: 1;
     justify-content: flex-end;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0;
+    margin-bottom: -2rem;
   }
   .hero-tagline { margin-top: 0; }
   .hero-cta { margin-top: 1.25rem; }
