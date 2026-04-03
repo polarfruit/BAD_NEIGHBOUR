@@ -612,7 +612,6 @@ footer {
 .menu-note-line {
   margin-top: 1rem;
   padding-top: 0.75rem;
-  border-top: 1px solid rgba(245,242,232,0.12);
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 600;
