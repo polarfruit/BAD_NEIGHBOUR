@@ -733,7 +733,7 @@ footer {
   display: flex;
   gap: 3px;
   width: max-content;
-  animation: carousel-scroll 38s linear infinite;
+  animation: carousel-scroll 39s linear infinite;
 }
 .photo-carousel-track:hover {
   animation-play-state: paused;
