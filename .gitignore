@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Ruflo / Claude Code internals
+.claude-flow/
+.swarm/
+.claude/
+.mcp.json
+CLAUDE.md
+
+# Large media (store separately / in git-lfs if needed)
+PHOTOS/
+VIDEOS/
