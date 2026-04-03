@@ -980,7 +980,6 @@ footer {
   .nav { padding: 0 1.25rem; }
   .nav-links  { display: none; }
   .nav-burger { display: flex; }
-  .nav-logo-name { display: none; }
   .hero-logo { display: none; }
 
   .about-inner {
