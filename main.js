@@ -180,6 +180,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ----------------------------------------------------------
+     PAUSE CAROUSELS ON HOVER
+  ---------------------------------------------------------- */
+  document.querySelectorAll('.photo-carousel-track').forEach(track => {
+    track.addEventListener('mouseenter', () => {
+      track.style.animationPlayState = 'paused';
+    });
+    track.addEventListener('mouseleave', () => {
+      track.style.animationPlayState = 'running';
+    });
+  });
+
+  /* ----------------------------------------------------------
      VIDEO — ensure autoplay on mobile (muted required)
   ---------------------------------------------------------- */
   document.querySelectorAll('video[autoplay]').forEach(v => {
