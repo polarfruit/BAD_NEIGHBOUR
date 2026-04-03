@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     stripPhotos.forEach((img, i) => {
       img.addEventListener('click', () => {
-        if (dragDist > 6) return; // was a drag, not a click
+        if (dragDist > 10) return; // was a drag, not a click
         openLightbox(i);
       });
     });

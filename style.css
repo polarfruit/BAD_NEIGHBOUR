@@ -370,7 +370,6 @@ a { text-decoration: none; color: inherit; }
   width: auto;
   object-fit: cover;
   flex-shrink: 0;
-  pointer-events: none;
 }
 
 /* ============================================================
