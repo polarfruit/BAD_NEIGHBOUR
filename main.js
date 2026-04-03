@@ -107,6 +107,79 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ----------------------------------------------------------
+     LIGHTBOX
+  ---------------------------------------------------------- */
+  const lightbox     = document.getElementById('lightbox');
+  const lbImg        = document.getElementById('lightbox-img');
+  const lbClose      = document.getElementById('lightbox-close');
+  const lbPrev       = document.getElementById('lightbox-prev');
+  const lbNext       = document.getElementById('lightbox-next');
+  const lbCounter    = document.getElementById('lightbox-counter');
+  const stripPhotos  = Array.from(document.querySelectorAll('.strip-photo'));
+
+  let currentIndex = 0;
+
+  function openLightbox(index) {
+    currentIndex = index;
+    const img = stripPhotos[currentIndex];
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lbCounter.textContent = `${currentIndex + 1} / ${stripPhotos.length}`;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + stripPhotos.length) % stripPhotos.length;
+    openLightbox(currentIndex);
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % stripPhotos.length;
+    openLightbox(currentIndex);
+  }
+
+  // Prevent drag triggering click — only open if mouse barely moved
+  if (stripPhotos.length) {
+    let dragDist = 0;
+    const track2 = document.getElementById('photo-strip-track');
+    if (track2) {
+      track2.addEventListener('mousedown', e => { dragDist = e.pageX; });
+      track2.addEventListener('mouseup',   e => { dragDist = Math.abs(e.pageX - dragDist); });
+    }
+
+    stripPhotos.forEach((img, i) => {
+      img.addEventListener('click', () => {
+        if (dragDist > 6) return; // was a drag, not a click
+        openLightbox(i);
+      });
+    });
+  }
+
+  if (lbClose)  lbClose.addEventListener('click', closeLightbox);
+  if (lbPrev)   lbPrev.addEventListener('click', showPrev);
+  if (lbNext)   lbNext.addEventListener('click', showNext);
+
+  if (lightbox) {
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
+
+  document.addEventListener('keydown', e => {
+    if (!lightbox || !lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  showPrev();
+    if (e.key === 'ArrowRight') showNext();
+  });
+
+  /* ----------------------------------------------------------
      VIDEO — ensure autoplay on mobile (muted required)
   ---------------------------------------------------------- */
   document.querySelectorAll('video[autoplay]').forEach(v => {

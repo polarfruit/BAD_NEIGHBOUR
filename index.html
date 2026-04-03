@@ -98,19 +98,19 @@
   ======================================================== -->
   <div class="checkerboard"></div>
   <div class="photo-strip">
-    <div class="photo-strip-track">
-      <img src="PHOTOS/_DSC3677.jpg" alt="Bad Neighbour sandos">
-      <img src="PHOTOS/_DSC3051.jpg" alt="Sando cross-section">
-      <img src="PHOTOS/_DSC2874.jpg" alt="Barista at work">
-      <img src="PHOTOS/_DSC3296.jpg" alt="Chocolate strawberries">
-      <img src="PHOTOS/_DSC2842.jpg" alt="Bad Neighbour counter">
-      <img src="PHOTOS/_DSC2885.jpg" alt="Coffee prep">
-      <img src="PHOTOS/_DSC3688.jpg" alt="Food shot">
-      <img src="PHOTOS/_DSC3682.jpg" alt="Food shot">
-      <img src="PHOTOS/_DSC3127.jpg" alt="Sando detail">
-      <img src="PHOTOS/_DSC3447.jpg" alt="Food shot">
-      <img src="PHOTOS/_DSC3543.jpg" alt="Food shot">
-      <img src="PHOTOS/_DSC3558.jpg" alt="Venue shot">
+    <div class="photo-strip-track" id="photo-strip-track">
+      <img src="PHOTOS/_DSC3677.jpg" alt="Bad Neighbour sandos" class="strip-photo">
+      <img src="PHOTOS/_DSC3051.jpg" alt="Sando cross-section" class="strip-photo">
+      <img src="PHOTOS/_DSC2874.jpg" alt="Barista at work" class="strip-photo">
+      <img src="PHOTOS/_DSC3296.jpg" alt="Chocolate strawberries" class="strip-photo">
+      <img src="PHOTOS/_DSC2842.jpg" alt="Bad Neighbour counter" class="strip-photo">
+      <img src="PHOTOS/_DSC2885.jpg" alt="Coffee prep" class="strip-photo">
+      <img src="PHOTOS/_DSC3688.jpg" alt="Food shot" class="strip-photo">
+      <img src="PHOTOS/_DSC3682.jpg" alt="Food shot" class="strip-photo">
+      <img src="PHOTOS/_DSC3127.jpg" alt="Sando detail" class="strip-photo">
+      <img src="PHOTOS/_DSC3447.jpg" alt="Food shot" class="strip-photo">
+      <img src="PHOTOS/_DSC3543.jpg" alt="Food shot" class="strip-photo">
+      <img src="PHOTOS/_DSC3558.jpg" alt="Venue shot" class="strip-photo">
     </div>
   </div>
   <div class="checkerboard"></div>
@@ -175,6 +175,17 @@
       </div>
     </div>
   </footer>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous">&#8592;</button>
+    <button class="lightbox-next" id="lightbox-next" aria-label="Next">&#8594;</button>
+    <div class="lightbox-img-wrap">
+      <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    </div>
+    <p class="lightbox-counter" id="lightbox-counter"></p>
+  </div>
 
   <script src="main.js"></script>
 </body>
