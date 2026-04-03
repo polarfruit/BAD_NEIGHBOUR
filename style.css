@@ -473,7 +473,9 @@ footer {
   color: var(--cream);
   opacity: 0.45;
   text-transform: uppercase;
-  vertical-align: middle;
+  vertical-align: baseline;
+  position: relative;
+  top: -0.3em;
 }
 .footer-meta {
   display: flex;
