@@ -260,11 +260,14 @@ a { text-decoration: none; color: inherit; }
 .hero-logo {
   font-family: var(--font-display);
   font-size: clamp(5rem, 20vw, 20rem);
-  line-height: 0.85;
+  line-height: 1;
   color: var(--white);
   text-transform: uppercase;
   letter-spacing: -0.02em;
   user-select: none;
+}
+.hero-logo div {
+  margin-bottom: 0.05em;
 }
 
 .hero-tagline {
