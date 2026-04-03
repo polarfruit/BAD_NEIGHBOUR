@@ -981,6 +981,11 @@ footer {
   .nav-links  { display: none; }
   .nav-burger { display: flex; }
   .hero-logo { display: none; }
+  .hero-content {
+    flex: 1;
+    justify-content: flex-end;
+    padding-bottom: 3rem;
+  }
 
   .about-inner {
     grid-template-columns: 1fr;
