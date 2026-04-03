@@ -669,6 +669,17 @@ footer {
 .sando-card:hover { padding-left: 0.75rem; }
 .sando-card:nth-child(even):hover { padding-left: 2.75rem; }
 
+.sando-thumb {
+  display: block;
+  width: calc(100% + 2rem);
+  margin-left: -0rem;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+  margin-bottom: 1.25rem;
+}
+.sando-card:nth-child(even) .sando-thumb { margin-left: -2rem; }
+
 .sando-num {
   font-family: var(--font-display);
   font-size: 0.85rem;
