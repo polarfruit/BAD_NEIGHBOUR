@@ -723,6 +723,33 @@ footer {
   vertical-align: middle;
 }
 
+/* Auto-scrolling photo carousel */
+.photo-carousel {
+  background: var(--green);
+  overflow: hidden;
+  line-height: 0;
+}
+.photo-carousel-track {
+  display: flex;
+  gap: 3px;
+  width: max-content;
+  animation: carousel-scroll 30s linear infinite;
+}
+.photo-carousel-track:hover {
+  animation-play-state: paused;
+}
+.photo-carousel-track img {
+  height: clamp(220px, 35vw, 480px);
+  width: auto;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+}
+@keyframes carousel-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 /* Menu page photo grid (between sections) */
 .menu-photo-grid {
   display: grid;
