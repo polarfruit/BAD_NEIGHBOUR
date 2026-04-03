@@ -445,11 +445,7 @@ a { text-decoration: none; color: inherit; }
 footer {
   background: var(--green);
   border-top: 1px solid rgba(245,242,232,0.1);
-  padding: 0 2.5rem 3rem;
-}
-footer .checkerboard {
-  margin: 0 -2.5rem 2.5rem;
-  width: calc(100% + 5rem);
+  padding: 2.5rem 2.5rem 3rem;
 }
 .footer-inner {
   max-width: 1200px;
