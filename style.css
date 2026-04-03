@@ -388,6 +388,8 @@ a { text-decoration: none; color: inherit; }
   gap: 5rem;
   align-items: start;
 }
+.about-h2-line { display: block; }
+
 .about-text h2 {
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 6vw, 5.5rem);
@@ -990,8 +992,8 @@ footer {
   .hero-tagline { margin-top: 0; }
   .hero-cta { margin-top: 1.25rem; }
 
-  .about-text h2 br { display: none; }
   .about-text h2 { font-size: clamp(2rem, 10vw, 3rem); }
+  .about-h2-line { display: inline; }
 
   .about-text .btn,
   .about-info .btn {
