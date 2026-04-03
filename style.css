@@ -981,6 +981,7 @@ footer {
   .nav-links  { display: none; }
   .nav-burger { display: flex; }
   .nav-logo-name { display: none; }
+  .hero-logo { display: none; }
 
   .about-inner {
     grid-template-columns: 1fr;
