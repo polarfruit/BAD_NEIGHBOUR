@@ -212,6 +212,7 @@ a { text-decoration: none; color: inherit; }
 .hero {
   min-height: 100vh;
   padding-top: var(--nav-h);
+  padding-bottom: 5rem;
   background: var(--green);
   display: flex;
   flex-direction: column;
