@@ -267,7 +267,7 @@ a { text-decoration: none; color: inherit; }
   user-select: none;
 }
 .hero-logo div {
-  margin-bottom: 0.05em;
+  margin-bottom: 0.03em;
 }
 
 .hero-tagline {
@@ -396,7 +396,7 @@ a { text-decoration: none; color: inherit; }
   font-size: clamp(2.5rem, 6vw, 5.5rem);
   text-transform: uppercase;
   color: var(--white);
-  line-height: 0.88;
+  line-height: 1.03;
   letter-spacing: -0.02em;
   margin-bottom: 2rem;
 }
@@ -498,7 +498,7 @@ footer {
   font-size: clamp(4rem, 16vw, 14rem);
   text-transform: uppercase;
   color: var(--white);
-  line-height: 0.82;
+  line-height: 1.03;
   letter-spacing: -0.02em;
 }
 .menu-hero p {
@@ -531,7 +531,7 @@ footer {
   font-family: var(--font-display);
   font-size: clamp(3.5rem, 12vw, 10rem);
   text-transform: uppercase;
-  line-height: 0.82;
+  line-height: 1.03;
   letter-spacing: -0.02em;
   margin-bottom: 3.5rem;
 }
@@ -838,7 +838,7 @@ footer {
   font-size: clamp(1.8rem, 5.5vw, 4.5rem);
   text-transform: uppercase;
   color: var(--green);
-  line-height: 0.9;
+  line-height: 1.03;
   letter-spacing: -0.02em;
   margin-top: 3.5rem;
 }
