@@ -1,0 +1,117 @@
+/* ============================================================
+   BAD NEIGHBOUR — main.js
+   ============================================================ */
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ----------------------------------------------------------
+     MOBILE NAV
+  ---------------------------------------------------------- */
+  const burger  = document.querySelector('.nav-burger');
+  const overlay = document.querySelector('.nav-overlay');
+
+  if (burger && overlay) {
+    burger.addEventListener('click', () => {
+      const isOpen = burger.classList.toggle('open');
+      overlay.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    // Close on any overlay link
+    overlay.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        burger.classList.remove('open');
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+
+  /* ----------------------------------------------------------
+     DRAG-TO-SCROLL PHOTO STRIP
+  ---------------------------------------------------------- */
+  const track = document.querySelector('.photo-strip-track');
+
+  if (track) {
+    let isDown   = false;
+    let startX   = 0;
+    let scrollLeft = 0;
+
+    track.addEventListener('mousedown', e => {
+      isDown = true;
+      track.classList.add('is-dragging');
+      startX     = e.pageX - track.offsetLeft;
+      scrollLeft = track.scrollLeft;
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDown = false;
+      track.classList.remove('is-dragging');
+    });
+
+    track.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x    = e.pageX - track.offsetLeft;
+      const walk = (x - startX) * 1.4;
+      track.scrollLeft = scrollLeft - walk;
+    });
+
+    // Touch support
+    let touchStartX = 0;
+    let touchScrollLeft = 0;
+
+    track.addEventListener('touchstart', e => {
+      touchStartX    = e.touches[0].pageX;
+      touchScrollLeft = track.scrollLeft;
+    }, { passive: true });
+
+    track.addEventListener('touchmove', e => {
+      const diff = touchStartX - e.touches[0].pageX;
+      track.scrollLeft = touchScrollLeft + diff;
+    }, { passive: true });
+  }
+
+  /* ----------------------------------------------------------
+     INTERSECTION OBSERVER — FADE-UP
+  ---------------------------------------------------------- */
+  const fadeEls = document.querySelectorAll('.fade-up');
+
+  if (fadeEls.length) {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    fadeEls.forEach(el => observer.observe(el));
+  }
+
+  /* ----------------------------------------------------------
+     NAV ACTIVE STATE (menu.html)
+  ---------------------------------------------------------- */
+  const path = window.location.pathname;
+  document.querySelectorAll('.nav-links a, .nav-overlay a').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href) return;
+    if (path.endsWith('menu.html') && href.includes('menu.html')) {
+      link.classList.add('active');
+    } else if ((path === '/' || path.endsWith('index.html') || path === '') && href.includes('index.html')) {
+      link.classList.add('active');
+    }
+  });
+
+  /* ----------------------------------------------------------
+     VIDEO — ensure autoplay on mobile (muted required)
+  ---------------------------------------------------------- */
+  document.querySelectorAll('video[autoplay]').forEach(v => {
+    v.muted = true;
+    v.play().catch(() => {/* autoplay blocked — fine */});
+  });
+
+});

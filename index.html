@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bad Neighbour — Coffee. Sandos. Trouble.</title>
+  <meta name="description" content="Coffee. Sandos. Trouble. Bad Neighbour — Harbour Town, Adelaide.">
+  <meta property="og:title" content="Bad Neighbour">
+  <meta property="og:description" content="Coffee. Sandos. Trouble. Harbour Town, Adelaide.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ========================================================
+       NAV
+  ======================================================== -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      Bad Neighbour
+      <small>Coffee · Sandos · Trouble</small>
+    </a>
+    <div class="nav-links">
+      <a href="menu.html">View Menu</a>
+      <a href="#find-us">Find Us</a>
+    </div>
+    <button class="nav-burger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile overlay -->
+  <div class="nav-overlay">
+    <a href="menu.html">Menu</a>
+    <a href="#find-us">Find Us</a>
+    <p class="overlay-tagline">Coffee · Sandos · Trouble</p>
+  </div>
+
+  <!-- ========================================================
+       HERO
+  ======================================================== -->
+  <section class="hero">
+    <div class="hero-logo">
+      <div>BAD</div>
+      <div>NEIGH</div>
+      <div>BOUR</div>
+    </div>
+    <p class="hero-tagline">Coffee &nbsp;·&nbsp; Sandos &nbsp;·&nbsp; Trouble</p>
+    <div class="hero-cta">
+      <a href="menu.html" class="btn btn-outline-cream">View Menu</a>
+      <a href="#find-us" class="btn btn-outline-cream">Find Us</a>
+    </div>
+    <div class="hero-bottom">
+      <div class="checkerboard"></div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       MARQUEE
+  ======================================================== -->
+  <div class="marquee-section" aria-hidden="true">
+    <div class="marquee-track">
+      <!-- Two copies for seamless loop -->
+      <span class="marquee-item">Coffee. Sandos. Trouble.</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">Worth. Every. Calorie.</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">Harbour Town, Adelaide.</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">We're Not Here To Be Your Friend.</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">Coffee. Sandos. Trouble.</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">Worth. Every. Calorie.</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">Harbour Town, Adelaide.</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">We're Not Here To Be Your Friend.</span>
+      <span class="marquee-sep">✦</span>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       VIDEO LOOP — gif.mov (short looping clip)
+  ======================================================== -->
+  <div class="video-loop">
+    <video autoplay muted loop playsinline poster="PHOTOS/_DSC2874.jpg">
+      <!--
+        Convert VIDEOS/gif.mov to .mp4 + .webm for cross-browser:
+          ffmpeg -i VIDEOS/gif.mov -c:v libx264 -crf 23 -movflags faststart VIDEOS/gif.mp4
+          ffmpeg -i VIDEOS/gif.mov -c:v libvpx-vp9 -crf 30 -b:v 0 VIDEOS/gif.webm
+      -->
+      <source src="VIDEOS/gif.mp4" type="video/mp4">
+      <source src="VIDEOS/gif.webm" type="video/webm">
+      <source src="VIDEOS/gif.mov" type="video/quicktime">
+      <!-- Fallback image if video doesn't load -->
+      <img src="PHOTOS/_DSC2874.jpg" alt="Bad Neighbour coffee prep">
+    </video>
+    <div class="video-loop-overlay"></div>
+  </div>
+
+  <!-- ========================================================
+       PHOTO STRIP — drag to scroll
+  ======================================================== -->
+  <div class="checkerboard"></div>
+  <div class="photo-strip">
+    <div class="photo-strip-track">
+      <img src="PHOTOS/_DSC3677.jpg" alt="Bad Neighbour sandos">
+      <img src="PHOTOS/_DSC3051.jpg" alt="Sando cross-section">
+      <img src="PHOTOS/_DSC2874.jpg" alt="Barista at work">
+      <img src="PHOTOS/_DSC3296.jpg" alt="Chocolate strawberries">
+      <img src="PHOTOS/_DSC2842.jpg" alt="Bad Neighbour counter">
+      <img src="PHOTOS/_DSC2885.jpg" alt="Coffee prep">
+      <img src="PHOTOS/_DSC3688.jpg" alt="Food shot">
+      <img src="PHOTOS/_DSC3682.jpg" alt="Food shot">
+      <img src="PHOTOS/_DSC3127.jpg" alt="Sando detail">
+      <img src="PHOTOS/_DSC3447.jpg" alt="Food shot">
+      <img src="PHOTOS/_DSC3543.jpg" alt="Food shot">
+      <img src="PHOTOS/_DSC3558.jpg" alt="Venue shot">
+    </div>
+  </div>
+  <div class="checkerboard"></div>
+
+  <!-- ========================================================
+       ABOUT / LOCATION
+  ======================================================== -->
+  <section class="about" id="find-us">
+    <div class="about-inner">
+
+      <div class="about-text fade-up">
+        <h2>Bad<br>Neigh<br>bour.</h2>
+        <p>Coffee done right. Sandos built to make you feel something.</p>
+        <p>We're not here to be your friend.</p>
+        <p>Come anyway.</p>
+        <a href="menu.html" class="btn btn-outline-cream">View the Menu</a>
+      </div>
+
+      <div class="about-info fade-up">
+        <h3>Location</h3>
+        <p>
+          Harbour Town Adelaide<br>
+          727 Tapleys Hill Rd<br>
+          Adelaide Airport SA 5950
+        </p>
+
+        <h3>Hours</h3>
+        <p>
+          Monday – Friday &nbsp; 7:00am – 4:00pm<br>
+          Saturday – Sunday &nbsp; 8:00am – 4:00pm
+          <!-- Update hours above as needed -->
+        </p>
+
+        <a
+          href="https://maps.google.com/?q=Harbour+Town+Adelaide+727+Tapleys+Hill+Rd"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-outline-cream"
+        >Get Directions</a>
+
+        <div class="about-venue-photo">
+          <img src="PHOTOS/_DSC2842.jpg" alt="Bad Neighbour at Harbour Town Adelaide">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       FOOTER
+  ======================================================== -->
+  <footer>
+    <div class="checkerboard checkerboard--inverted" style="margin-bottom: 2.5rem;"></div>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        Bad Neighbour
+        <span>Coffee · Sandos · Trouble · Harbour Town Adelaide</span>
+      </div>
+      <div class="footer-meta">
+        <p>© Bad Neighbour Pty Ltd</p>
+        <p>Harbour Town, Adelaide</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
