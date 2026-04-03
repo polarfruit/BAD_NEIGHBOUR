@@ -39,17 +39,31 @@
   <!-- ========================================================
        HERO
   ======================================================== -->
-  <section class="hero">
-    <div class="hero-logo">
-      <div>BAD</div>
-      <div>NEIGH</div>
-      <div>BOUR</div>
+  <section class="hero hero--video">
+    <!-- Background video -->
+    <video class="hero-video" autoplay muted loop playsinline poster="PHOTOS/_DSC3677.jpg">
+      <source src="VIDEOS/1107(1).mp4" type="video/mp4">
+      <source src="VIDEOS/1107(1).webm" type="video/webm">
+      <source src="VIDEOS/1107(1).mov" type="video/quicktime">
+      <source src="VIDEOS/gif.mp4" type="video/mp4">
+      <source src="VIDEOS/gif.mov" type="video/quicktime">
+    </video>
+    <div class="hero-video-overlay"></div>
+
+    <!-- Content -->
+    <div class="hero-content">
+      <div class="hero-logo">
+        <div>BAD</div>
+        <div>NEIGH</div>
+        <div>BOUR</div>
+      </div>
+      <p class="hero-tagline">Coffee &nbsp;·&nbsp; Sandos &nbsp;·&nbsp; Trouble</p>
+      <div class="hero-cta">
+        <a href="menu.html" class="btn btn-outline-cream">View Menu</a>
+        <a href="#find-us" class="btn btn-outline-cream">Find Us</a>
+      </div>
     </div>
-    <p class="hero-tagline">Coffee &nbsp;·&nbsp; Sandos &nbsp;·&nbsp; Trouble</p>
-    <div class="hero-cta">
-      <a href="menu.html" class="btn btn-outline-cream">View Menu</a>
-      <a href="#find-us" class="btn btn-outline-cream">Find Us</a>
-    </div>
+
     <div class="hero-bottom">
       <div class="checkerboard"></div>
     </div>
@@ -78,25 +92,6 @@
       <span class="marquee-item">We're Not Here To Be Your Friend.</span>
       <span class="marquee-sep">✦</span>
     </div>
-  </div>
-
-  <!-- ========================================================
-       VIDEO LOOP — gif.mov (short looping clip)
-  ======================================================== -->
-  <div class="video-loop">
-    <video autoplay muted loop playsinline poster="PHOTOS/_DSC2874.jpg">
-      <!--
-        Convert VIDEOS/gif.mov to .mp4 + .webm for cross-browser:
-          ffmpeg -i VIDEOS/gif.mov -c:v libx264 -crf 23 -movflags faststart VIDEOS/gif.mp4
-          ffmpeg -i VIDEOS/gif.mov -c:v libvpx-vp9 -crf 30 -b:v 0 VIDEOS/gif.webm
-      -->
-      <source src="VIDEOS/gif.mp4" type="video/mp4">
-      <source src="VIDEOS/gif.webm" type="video/webm">
-      <source src="VIDEOS/gif.mov" type="video/quicktime">
-      <!-- Fallback image if video doesn't load -->
-      <img src="PHOTOS/_DSC2874.jpg" alt="Bad Neighbour coffee prep">
-    </video>
-    <div class="video-loop-overlay"></div>
   </div>
 
   <!-- ========================================================
