@@ -477,6 +477,15 @@ footer {
   position: relative;
   top: -0.3em;
 }
+.footer-ig {
+  color: var(--cream);
+  opacity: 0.6;
+  transition: opacity 200ms ease;
+  display: flex;
+  align-items: center;
+}
+.footer-ig:hover { opacity: 1; }
+
 .footer-meta {
   display: flex;
   flex-direction: column;
