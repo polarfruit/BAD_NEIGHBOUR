@@ -550,25 +550,23 @@ footer {
   gap: 4rem;
 }
 .coffee-col-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--cream);
+  letter-spacing: 0.02em;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(245,242,232,0.25);
+  margin-bottom: 1.25rem;
+}
+.coffee-col-subtitle {
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--mid-green);
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(245,242,232,0.2);
-  margin-bottom: 1rem;
-}
-.coffee-col-subtitle {
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.6rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--mid-green);
-  opacity: 0.7;
-  margin: 1.5rem 0 0.5rem;
+  letter-spacing: 0.18em;
+  color: var(--cream);
+  opacity: 0.55;
+  margin: 1.75rem 0 0.6rem;
 }
 
 .menu-row {
