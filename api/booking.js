@@ -54,10 +54,10 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { name, email, phone, date, time, days, event_type, guests, address, message, total_price } = req.body;
+    const { name, email, phone, date, time_start, time_end, days, event_type, guests, address, message, total_price } = req.body;
 
     /* ---- Validate required fields ---- */
-    if (!name || !email || !phone || !date || !time || !event_type || !guests || !address) {
+    if (!name || !email || !phone || !date || !time_start || !time_end || !event_type || !guests || !address) {
       return res.status(400).json({ error: 'All required fields must be filled in.' });
     }
 
@@ -125,7 +125,7 @@ module.exports = async function handler(req, res) {
       const orderNote = [
         `Event Type: ${event_type}`,
         `Event Date: ${date}${numDays > 1 ? ` (${numDays} days)` : ''}`,
-        `Preferred Time: ${time}`,
+        `Time: ${time_start} — ${time_end}`,
         `Location: ${address}`,
         `Guest Count: ${pkg.name}`,
         message ? `Notes: ${message}` : ''
@@ -179,7 +179,7 @@ module.exports = async function handler(req, res) {
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Email</td><td style="padding:8px 0;"><a href="mailto:${email}">${email}</a></td></tr>
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Phone</td><td style="padding:8px 0;"><a href="tel:${phone}">${phone}</a></td></tr>
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Event Date</td><td style="padding:8px 0;">${date}${numDaysEmail > 1 ? ` (${numDaysEmail} days)` : ''}</td></tr>
-          <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Preferred Time</td><td style="padding:8px 0;">${time}</td></tr>
+          <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Time</td><td style="padding:8px 0;">${time_start} — ${time_end}</td></tr>
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Event Type</td><td style="padding:8px 0;">${event_type}</td></tr>
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Package</td><td style="padding:8px 0;">${pkg.name}</td></tr>
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Total</td><td style="padding:8px 0;">${totalFormatted}${daysLabel}</td></tr>
