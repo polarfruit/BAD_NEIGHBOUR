@@ -96,7 +96,88 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'Westfield West Lakes', area: 'West Lakes' }
   ];
 
-  // ---- SUBURBS (same as before) ----
+  // ---- STREETS (major roads — user can prepend a street number) ----
+  const STREETS = [
+    // CBD
+    { street: 'Wakefield Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Rundle Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Rundle Mall', area: 'Adelaide', postcode: '5000' },
+    { street: 'Hindley Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Grenfell Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Currie Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'King William Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'King William Road', area: 'Unley', postcode: '5061' },
+    { street: 'North Terrace', area: 'Adelaide', postcode: '5000' },
+    { street: 'South Terrace', area: 'Adelaide', postcode: '5000' },
+    { street: 'East Terrace', area: 'Adelaide', postcode: '5000' },
+    { street: 'West Terrace', area: 'Adelaide', postcode: '5000' },
+    { street: 'Hutt Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Gouger Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Grote Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Flinders Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Franklin Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Pirie Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Pulteney Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Frome Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Morphett Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Wright Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Sturt Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Waymouth Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Angas Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Carrington Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Halifax Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Leigh Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Peel Street', area: 'Adelaide', postcode: '5000' },
+    { street: 'Gawler Place', area: 'Adelaide', postcode: '5000' },
+    { street: 'Victoria Square', area: 'Adelaide', postcode: '5000' },
+    // Inner suburbs & popular strips
+    { street: 'O\'Connell Street', area: 'North Adelaide', postcode: '5006' },
+    { street: 'Melbourne Street', area: 'North Adelaide', postcode: '5006' },
+    { street: 'Jetty Road', area: 'Glenelg', postcode: '5045' },
+    { street: 'Jetty Road', area: 'Brighton', postcode: '5048' },
+    { street: 'The Parade', area: 'Norwood', postcode: '5067' },
+    { street: 'Prospect Road', area: 'Prospect', postcode: '5082' },
+    { street: 'Unley Road', area: 'Unley', postcode: '5061' },
+    { street: 'Goodwood Road', area: 'Goodwood', postcode: '5034' },
+    { street: 'Henley Beach Road', area: 'Mile End', postcode: '5031' },
+    { street: 'Semaphore Road', area: 'Semaphore', postcode: '5019' },
+    { street: 'Military Road', area: 'Semaphore', postcode: '5019' },
+    { street: 'Commercial Road', area: 'Port Adelaide', postcode: '5015' },
+    { street: 'Churchill Road', area: 'Prospect', postcode: '5082' },
+    // Major roads
+    { street: 'Magill Road', area: 'Magill', postcode: '5072' },
+    { street: 'Payneham Road', area: 'Payneham', postcode: '5070' },
+    { street: 'Anzac Highway', area: 'Ashford', postcode: '5035' },
+    { street: 'South Road', area: 'Adelaide', postcode: '5000' },
+    { street: 'Main North Road', area: 'Prospect', postcode: '5082' },
+    { street: 'Port Road', area: 'Hindmarsh', postcode: '5007' },
+    { street: 'Greenhill Road', area: 'Eastwood', postcode: '5063' },
+    { street: 'Glen Osmond Road', area: 'Parkside', postcode: '5063' },
+    { street: 'Brighton Road', area: 'Brighton', postcode: '5048' },
+    { street: 'Tapleys Hill Road', area: 'Glenelg North', postcode: '5045' },
+    { street: 'Marion Road', area: 'Marion', postcode: '5043' },
+    { street: 'Cross Road', area: 'Cumberland Park', postcode: '5041' },
+    { street: 'Sir Donald Bradman Drive', area: 'Hilton', postcode: '5033' },
+    { street: 'Diagonal Road', area: 'Somerton Park', postcode: '5044' },
+    { street: 'Torrens Road', area: 'Kilkenny', postcode: '5009' },
+    { street: 'Grand Junction Road', area: 'Ottoway', postcode: '5013' },
+    { street: 'Port Wakefield Road', area: 'Gepps Cross', postcode: '5094' },
+    { street: 'Main South Road', area: 'Morphett Vale', postcode: '5162' },
+    { street: 'Regency Road', area: 'Regency Park', postcode: '5010' },
+    { street: 'Portrush Road', area: 'Payneham', postcode: '5070' },
+    { street: 'Lower North East Road', area: 'Campbelltown', postcode: '5074' },
+    { street: 'North East Road', area: 'Walkerville', postcode: '5081' },
+    { street: 'Fullarton Road', area: 'Fullarton', postcode: '5063' },
+    { street: 'The Esplanade', area: 'Henley Beach', postcode: '5022' },
+    { street: 'The Esplanade', area: 'Semaphore', postcode: '5019' },
+    { street: 'Seaview Road', area: 'Henley Beach', postcode: '5022' },
+    { street: 'Military Road', area: 'West Beach', postcode: '5024' },
+    { street: 'Morphett Road', area: 'Glengowrie', postcode: '5044' },
+    { street: 'Sherriff Street', area: 'Underdale', postcode: '5032' },
+    { street: 'James Congdon Drive', area: 'Thebarton', postcode: '5031' }
+  ];
+
+  // ---- SUBURBS ----
   const SUBURBS = [
     'Aberfoyle Park','Adelaide','Albert Park','Alberton','Aldinga','Aldinga Beach',
     'Allenby Gardens','Angle Park','Angle Vale','Ascot Park','Athelstone',
@@ -203,17 +284,17 @@ document.addEventListener('DOMContentLoaded', () => {
      ============================================================ */
   let activeIndex = -1;
 
-  function showDropdown(venueMatches, suburbMatches) {
+  function showDropdown(venueMatches, streetMatches, suburbMatches, streetNum) {
     dropdown.innerHTML = '';
     activeIndex = -1;
 
-    if (!venueMatches.length && !suburbMatches.length) {
+    if (!venueMatches.length && !streetMatches.length && !suburbMatches.length) {
       dropdown.style.display = 'none';
       return;
     }
 
-    // Show venue/location results first
-    venueMatches.slice(0, 4).forEach((loc) => {
+    // 1) Venue/location results
+    venueMatches.slice(0, 3).forEach((loc) => {
       const item = document.createElement('div');
       item.className = 'tuktuk-suburb-item tuktuk-suburb-item--venue';
       item.innerHTML = '<strong>' + loc.name + '</strong> <span class="tuktuk-suburb-area">— ' + loc.area + '</span>';
@@ -226,8 +307,24 @@ document.addEventListener('DOMContentLoaded', () => {
       dropdown.appendChild(item);
     });
 
-    // Then suburb results
-    suburbMatches.slice(0, 6).forEach((suburb) => {
+    // 2) Street results
+    streetMatches.slice(0, 4).forEach((st) => {
+      const prefix = streetNum ? streetNum + ' ' : '';
+      const label = prefix + st.street + ', ' + st.area + ' ' + st.postcode;
+      const item = document.createElement('div');
+      item.className = 'tuktuk-suburb-item tuktuk-suburb-item--street';
+      item.innerHTML = '<span class="tuktuk-street-name">' + prefix + st.street + '</span> <span class="tuktuk-suburb-area">— ' + st.area + ' ' + st.postcode + '</span>';
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        addressIn.value = label;
+        dropdown.style.display = 'none';
+        updateEstimate();
+      });
+      dropdown.appendChild(item);
+    });
+
+    // 3) Suburb results
+    suburbMatches.slice(0, 4).forEach((suburb) => {
       const item = document.createElement('div');
       item.className = 'tuktuk-suburb-item';
       item.textContent = suburb + ', SA';
@@ -244,31 +341,63 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   addressIn.addEventListener('input', () => {
-    const query = addressIn.value.trim().toLowerCase();
-    if (query.length < 2) {
+    const raw = addressIn.value.trim();
+    if (raw.length < 2) {
       dropdown.style.display = 'none';
       return;
     }
 
-    // Search venues/locations
+    // Detect leading street number (e.g. "3 wakefield" → num=3, text="wakefield")
+    let streetNum = '';
+    let searchText = raw.toLowerCase();
+    const numMatch = raw.match(/^(\d+[-/]?\d*)\s+(.+)/);
+    if (numMatch) {
+      streetNum = numMatch[1];
+      searchText = numMatch[2].toLowerCase();
+    }
+
+    // Normalise common abbreviations for matching
+    const normalised = searchText
+      .replace(/\bst\b/g, 'street')
+      .replace(/\brd\b/g, 'road')
+      .replace(/\bhwy\b/g, 'highway')
+      .replace(/\bdr\b/g, 'drive')
+      .replace(/\bave?\b/g, 'avenue')
+      .replace(/\btce\b/g, 'terrace')
+      .replace(/\bpl\b/g, 'place')
+      .replace(/\bcrt?\b/g, 'court')
+      .replace(/\bcres\b/g, 'crescent');
+
+    // Search venues/locations (use original text — no abbreviation expansion)
     const venueMatches = LOCATIONS.filter(loc =>
-      loc.name.toLowerCase().includes(query) || loc.area.toLowerCase().includes(query)
+      loc.name.toLowerCase().includes(searchText) || loc.area.toLowerCase().includes(searchText)
     );
     venueMatches.sort((a, b) => {
-      const aStarts = a.name.toLowerCase().startsWith(query) ? 0 : 1;
-      const bStarts = b.name.toLowerCase().startsWith(query) ? 0 : 1;
+      const aStarts = a.name.toLowerCase().startsWith(searchText) ? 0 : 1;
+      const bStarts = b.name.toLowerCase().startsWith(searchText) ? 0 : 1;
       return aStarts - bStarts || a.name.localeCompare(b.name);
     });
 
+    // Search streets (match on both raw text and normalised abbreviations)
+    const streetMatches = STREETS.filter(st => {
+      const full = (st.street + ' ' + st.area + ' ' + st.postcode).toLowerCase();
+      return full.includes(searchText) || full.includes(normalised);
+    });
+    streetMatches.sort((a, b) => {
+      const aStarts = a.street.toLowerCase().startsWith(searchText) || a.street.toLowerCase().startsWith(normalised) ? 0 : 1;
+      const bStarts = b.street.toLowerCase().startsWith(searchText) || b.street.toLowerCase().startsWith(normalised) ? 0 : 1;
+      return aStarts - bStarts || a.street.localeCompare(b.street);
+    });
+
     // Search suburbs
-    const suburbMatches = SUBURBS.filter(s => s.toLowerCase().includes(query));
+    const suburbMatches = SUBURBS.filter(s => s.toLowerCase().includes(searchText));
     suburbMatches.sort((a, b) => {
-      const aStarts = a.toLowerCase().startsWith(query) ? 0 : 1;
-      const bStarts = b.toLowerCase().startsWith(query) ? 0 : 1;
+      const aStarts = a.toLowerCase().startsWith(searchText) ? 0 : 1;
+      const bStarts = b.toLowerCase().startsWith(searchText) ? 0 : 1;
       return aStarts - bStarts || a.localeCompare(b);
     });
 
-    showDropdown(venueMatches, suburbMatches);
+    showDropdown(venueMatches, streetMatches, suburbMatches, streetNum);
   });
 
   // Keyboard navigation

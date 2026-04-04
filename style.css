@@ -1546,6 +1546,7 @@ footer {
   background: rgba(245,242,232,0.1);
 }
 .tuktuk-suburb-item--venue strong { font-weight: 600; }
+.tuktuk-suburb-item--street .tuktuk-street-name { font-weight: 500; }
 .tuktuk-suburb-area {
   font-size: 0.78rem;
   opacity: 0.6;
