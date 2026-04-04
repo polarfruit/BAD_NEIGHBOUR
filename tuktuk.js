@@ -199,6 +199,56 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCalendar();
 
   /* ============================================================
+     GOOGLE PLACES AUTOCOMPLETE
+     Loads API key from /api/maps-key, then initialises autocomplete
+     restricted to Australian addresses. Falls back to manual input
+     if key isn't configured yet.
+     ============================================================ */
+  (async function initPlaces() {
+    try {
+      const res = await fetch('/api/maps-key');
+      const data = await res.json();
+      if (!data.key) return; // No key yet — manual input works fine
+
+      // Load Google Maps JS
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${data.key}&libraries=places&callback=initAutocomplete`;
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    } catch (e) {
+      // Silently fall back to manual input
+    }
+  })();
+
+  // Called by Google Maps script once loaded
+  window.initAutocomplete = function() {
+    const autocomplete = new google.maps.places.Autocomplete(addressIn, {
+      types: ['geocode', 'establishment'],
+      componentRestrictions: { country: 'au' },
+      fields: ['formatted_address', 'address_components', 'geometry']
+    });
+
+    // Prevent form submit on Enter while dropdown is open
+    addressIn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const pac = document.querySelector('.pac-container');
+        if (pac && pac.style.display !== 'none') {
+          e.preventDefault();
+        }
+      }
+    });
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace();
+      if (place && place.formatted_address) {
+        addressIn.value = place.formatted_address;
+      }
+      updateEstimate();
+    });
+  };
+
+  /* ============================================================
      BLOCKED LOCATIONS
      ============================================================ */
   const blockedSuburbs = [
