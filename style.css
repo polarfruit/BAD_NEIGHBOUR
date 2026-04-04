@@ -1517,12 +1517,13 @@ footer {
 
 /* Suburb Autocomplete Dropdown */
 .tuktuk-suburb-wrap { position: relative; }
+.tuktuk-suburb-wrap input { width: 100%; }
 .tuktuk-suburb-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% - 1px);
+  top: 100%;
   left: 0; right: 0;
-  z-index: 50;
+  z-index: 100;
   background: var(--green);
   border: 1px solid rgba(245,242,232,0.2);
   border-top: none;

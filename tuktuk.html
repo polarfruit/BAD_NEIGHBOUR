@@ -367,11 +367,13 @@
           </div>
         </div>
 
-        <div class="tuktuk-form-field tuktuk-form-field--full tuktuk-suburb-wrap">
+        <div class="tuktuk-form-field tuktuk-form-field--full">
           <label for="book-address">Event Location / Suburb *</label>
-          <input type="text" id="book-address" name="address" required
-                 placeholder="Start typing a suburb..." autocomplete="off">
-          <div class="tuktuk-suburb-dropdown" id="suburb-dropdown"></div>
+          <div class="tuktuk-suburb-wrap">
+            <input type="text" id="book-address" name="address" required
+                   placeholder="Start typing a suburb..." autocomplete="off">
+            <div class="tuktuk-suburb-dropdown" id="suburb-dropdown"></div>
+          </div>
           <p class="tuktuk-form-hint" id="location-hint"></p>
         </div>
 
