@@ -6,7 +6,6 @@
   <title>Book the Tuk Tuk — Bad Neighbour</title>
   <meta name="description" content="Book the Bad Neighbour Tuk Tuk for your next event. Chocolate strawberries on wheels. Weddings, birthdays, corporate events.">
   <link rel="stylesheet" href="style.css">
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.11/index.min.js"></script>
 </head>
 <body>
 
@@ -368,16 +367,11 @@
           </div>
         </div>
 
-        <div class="tuktuk-form-field tuktuk-form-field--full tuktuk-place-wrap">
+        <div class="tuktuk-form-field tuktuk-form-field--full tuktuk-suburb-wrap">
           <label for="book-address">Event Location / Suburb *</label>
-          <gmpx-api-loader id="gmpx-loader" solution-channel="GMP_CCS_autocomplete_v5"></gmpx-api-loader>
-          <gmpx-place-picker
-            id="place-picker"
-            placeholder="Search for a venue or suburb"
-            country="au"
-            type="geocode"
-          ></gmpx-place-picker>
-          <input type="hidden" id="book-address" name="address">
+          <input type="text" id="book-address" name="address" required
+                 placeholder="Start typing a suburb..." autocomplete="off">
+          <div class="tuktuk-suburb-dropdown" id="suburb-dropdown"></div>
           <p class="tuktuk-form-hint" id="location-hint"></p>
         </div>
 

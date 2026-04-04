@@ -1515,29 +1515,39 @@ footer {
 .tuktuk-form-hint--ok { color: #6dbf8b; opacity: 1; }
 .tuktuk-form-hint--blocked { color: #e87461; opacity: 1; }
 
-/* Google Places — gmpx-place-picker styling */
-.tuktuk-place-wrap gmpx-place-picker {
-  --gmpx-color-surface: rgba(245,242,232,0.08);
-  --gmpx-color-on-surface: var(--cream);
-  --gmpx-color-on-surface-variant: rgba(245,242,232,0.5);
-  --gmpx-color-primary: var(--cream);
-  --gmpx-font-family-base: var(--font-body);
-  --gmpx-font-size-base: 0.95rem;
-  width: 100%;
-}
-.tuktuk-place-wrap gmpx-place-picker::part(input) {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  padding: 0.85rem 1rem;
-  background: rgba(245,242,232,0.08);
+/* Suburb Autocomplete Dropdown */
+.tuktuk-suburb-wrap { position: relative; }
+.tuktuk-suburb-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 0; right: 0;
+  z-index: 50;
+  background: var(--green);
   border: 1px solid rgba(245,242,232,0.2);
-  color: var(--cream);
-  transition: border-color 200ms ease, background 200ms ease;
+  border-top: none;
+  max-height: 240px;
+  overflow-y: auto;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
 }
-.tuktuk-place-wrap gmpx-place-picker::part(input):focus {
-  border-color: rgba(245,242,232,0.5);
-  background: rgba(245,242,232,0.12);
-  outline: none;
+.tuktuk-suburb-item {
+  padding: 0.7rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--cream);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(245,242,232,0.06);
+  transition: background 120ms ease;
+}
+.tuktuk-suburb-item:last-child { border-bottom: none; }
+.tuktuk-suburb-item:hover,
+.tuktuk-suburb-item.active {
+  background: rgba(245,242,232,0.1);
+}
+.tuktuk-suburb-dropdown::-webkit-scrollbar { width: 4px; }
+.tuktuk-suburb-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(245,242,232,0.15);
+  border-radius: 2px;
 }
 
 /* Price Estimate */

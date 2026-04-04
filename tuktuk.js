@@ -1,6 +1,6 @@
 /* ============================================================
    BAD NEIGHBOUR — tuktuk.js
-   Booking form: date range calendar, time, location, pricing
+   Booking form: date range, time, suburb autocomplete, pricing
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,12 +16,197 @@ document.addEventListener('DOMContentLoaded', () => {
   const priceEl    = document.getElementById('estimate-price');
   const successEl  = document.getElementById('booking-success');
   const submitBtn  = document.getElementById('booking-submit');
+  const dropdown   = document.getElementById('suburb-dropdown');
 
   if (!form) return;
 
   /* ============================================================
+     ADELAIDE SUBURBS — no API needed
+     Blocked suburbs omitted from this list entirely.
+     ============================================================ */
+  const SUBURBS = [
+    'Aberfoyle Park','Adelaide','Albert Park','Alberton','Aldinga','Aldinga Beach',
+    'Allenby Gardens','Angle Park','Angle Vale','Ascot Park','Athelstone',
+    'Athol Park','Auldana','Banksia Park','Beaumont','Bedford Park','Belair',
+    'Bellevue Heights','Beverley','Birkenhead','Blair Athol','Blakeview',
+    'Bolivar','Bowden','Brahma Lodge','Brighton','Broadview','Brompton',
+    'Brooklyn Park','Brown Hill Creek','Burnside','Burton','Camden Park',
+    'Campbelltown','Castle Plaza','Cavan','Cheltenham','Christie Downs',
+    'Christies Beach','Clarence Gardens','Clarence Park','Clearview',
+    'Clovelly Park','Collinswood','Colonel Light Gardens','Colonnades',
+    'Coromandel Valley','Cowandilla','Craigburn Farm','Croydon','Croydon Park',
+    'Cumberland Park','Darlington','Davoren Park','Daw Park','Devon Park',
+    'Dernancourt','Dry Creek','Dulwich','East Adelaide','Eastwood',
+    'Eden Hills','Edwardstown','Elizabeth','Elizabeth Downs','Elizabeth East',
+    'Elizabeth Grove','Elizabeth North','Elizabeth Park','Elizabeth South',
+    'Elizabeth Vale','Encounter Bay','Enfield','Erindale','Ethelton',
+    'Evandale','Evanston','Evanston Gardens','Evanston Park','Everard Park',
+    'Exeter','Fairview Park','Felixstow','Ferryden Park','Findon',
+    'Firle','Flagstaff Hill','Flinders Park','Forestville','Frewville',
+    'Fulham','Fulham Gardens','Fullarton','Gawler','Gawler Belt',
+    'Gawler East','Gawler South','Gawler West','Gepps Cross','Gilberton',
+    'Gilles Plains','Gillman','Glandore','Glen Osmond','Glenalta',
+    'Glengowrie','Glenelg','Glenelg East','Glenelg North','Glenelg South',
+    'Glenside','Golden Grove','Goodwood','Gould Creek','Grange',
+    'Greenacres','Greenfields','Greenwith','Gulfview Heights',
+    'Hackham','Hackham West','Hackney','Haigh Park','Hallett Cove',
+    'Hampstead Gardens','Happy Valley','Hawthorn','Hawthorndene',
+    'Hayborough','Hendon','Henley Beach','Henley Beach South','Highbury',
+    'Highgate','Hillbank','Hillcrest','Hilton','Hindmarsh',
+    'Holden Hill','Hope Valley','Hove','Huntfield Heights','Hyde Park',
+    'Ingle Farm','Joslin','Kangarilla','Kensington','Kensington Gardens',
+    'Kensington Park','Kent Town','Keswick','Kidman Park','Kilburn',
+    'Kilkenny','Kings Park','Kingston Park','Klemzig','Knoxville',
+    'Largs Bay','Largs North','Leabrook','Lightsview','Linden Park',
+    'Lockleys','Lower Mitcham','Lonsdale','Magill','Malvern',
+    'Manningham','Mansfield Park','Marden','Marion','Marino',
+    'Marleston','Maslin Beach','Mawson Lakes','Maylands','McLaren Flat',
+    'McLaren Vale','Medindie','Melrose Park','Mile End','Millswood',
+    'Mitcham','Mitchell Park','Modbury','Modbury Heights','Modbury North',
+    'Moana','Montacute','Morphett Vale','Morphettville','Mount Osmond',
+    'Munno Para','Munno Para Downs','Munno Para West','Myrtle Bank',
+    'Nailsworth','Nethercote','Netherby','Netley','New Port',
+    'Newton','Noarlunga Centre','Noarlunga Downs','Normanville',
+    'North Adelaide','North Brighton','North Haven','North Plympton',
+    'Northfield','Northgate','Norwood','Novar Gardens','Oakden',
+    'Oaklands Park','Old Noarlunga','Old Reynella','One Tree Hill',
+    'Osborne','Ottoway','Outer Harbor','Ovingham','O\'Halloran Hill',
+    'Panorama','Paradise','Parafield','Parafield Gardens','Para Hills',
+    'Para Hills West','Para Vista','Paralowie','Park Holme',
+    'Parkside','Pasadena','Payneham','Payneham South','Pennington',
+    'Penola','Peterhead','Piccadilly','Plympton','Plympton Park',
+    'Point Cook','Pooraka','Port Adelaide','Port Noarlunga',
+    'Port Noarlunga South','Port Willunga','Prospect','Queenstown',
+    'Redwood Park','Regency Park','Reid','Renown Park','Reynella',
+    'Reynella East','Richmond','Ridgehaven','Ridleyton','Risdon Park',
+    'Rose Park','Rosewater','Rosslyn Park','Rostrevor','Royal Park',
+    'Royston Park','St Agnes','St Clair','St Georges','St Kilda',
+    'St Marys','St Morris','St Peters','Salisbury','Salisbury Downs',
+    'Salisbury East','Salisbury Heights','Salisbury North',
+    'Salisbury Park','Salisbury Plain','Salisbury South','Seaford',
+    'Seaford Heights','Seaford Meadows','Seaford Rise','Seacliff',
+    'Seacliff Park','Seaton','Seaview Downs','Sellicks Beach',
+    'Semaphore','Semaphore Park','Semaphore South','Sheidow Park',
+    'Smithfield','Smithfield Plains','Somerton Park','South Brighton',
+    'South Plympton','Springfield','St Agnes','Sturt','Surrey Downs',
+    'Tea Tree Gully','Tennyson','Thebarton','Thorngate','Toorak Gardens',
+    'Torrensville','Torrens Park','Totness','Tranmere','Trinity Gardens',
+    'Trott Park','Tusmore','Two Wells','Underdale','Unley',
+    'Unley Park','Vale Park','Valley View','Verdun','Virginia',
+    'Vista','Walkerville','Walkley Heights','Warradale',
+    'Waterfall Gully','Waterloo Corner','Wayville','Welland',
+    'West Beach','West Croydon','West Hindmarsh','West Lakes',
+    'West Lakes Shore','West Richmond','Westbourne Park','Willaston',
+    'Willunga','Windsor Gardens','Wingfield','Woodcroft',
+    'Woodville','Woodville Gardens','Woodville North','Woodville Park',
+    'Woodville South','Woodville West','Wynn Vale','Yatala Vale'
+  ];
+
+  /* ============================================================
+     BLOCKED SUBURBS — Adelaide Hills & regional
+     ============================================================ */
+  const blockedSuburbs = [
+    'adelaide hills','mount lofty','stirling','crafers','bridgewater',
+    'hahndorf','lobethal','woodside','birdwood','gumeracha',
+    'mount barker','nairne','littlehampton','echunga','meadows',
+    'macclesfield','strathalbyn','mylor','aldgate','basket range',
+    'norton summit','uraidla','summertown','piccadilly','greenhill',
+    'carey gully','ashton','lenswood','forest range',
+    'charleston','mount pleasant','williamstown','chain of ponds',
+    'kersbrook','mount torrens','palmer',
+    'mannum','murray bridge','victor harbor','port augusta',
+    'port lincoln','whyalla','mount gambier','clare','barossa',
+    'tanunda','nuriootpa','angaston','lyndoch','kapunda',
+    'renmark','berri','loxton','waikerie','riverland'
+  ];
+
+  function isBlocked(location) {
+    const lower = location.toLowerCase().trim();
+    return blockedSuburbs.some(s => lower.includes(s));
+  }
+
+  /* ============================================================
+     SEARCHABLE SUBURB DROPDOWN
+     ============================================================ */
+  let activeIndex = -1;
+
+  function showDropdown(matches) {
+    dropdown.innerHTML = '';
+    activeIndex = -1;
+
+    if (!matches.length) {
+      dropdown.style.display = 'none';
+      return;
+    }
+
+    matches.slice(0, 8).forEach((suburb, i) => {
+      const item = document.createElement('div');
+      item.className = 'tuktuk-suburb-item';
+      item.textContent = suburb + ', SA';
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault(); // prevent blur before click registers
+        addressIn.value = suburb + ', SA';
+        dropdown.style.display = 'none';
+        updateEstimate();
+      });
+      dropdown.appendChild(item);
+    });
+
+    dropdown.style.display = 'block';
+  }
+
+  addressIn.addEventListener('input', () => {
+    const query = addressIn.value.trim().toLowerCase();
+    if (query.length < 2) {
+      dropdown.style.display = 'none';
+      return;
+    }
+
+    const matches = SUBURBS.filter(s => s.toLowerCase().includes(query));
+
+    // Sort: starts-with first, then contains
+    matches.sort((a, b) => {
+      const aStarts = a.toLowerCase().startsWith(query) ? 0 : 1;
+      const bStarts = b.toLowerCase().startsWith(query) ? 0 : 1;
+      return aStarts - bStarts || a.localeCompare(b);
+    });
+
+    showDropdown(matches);
+  });
+
+  // Keyboard navigation
+  addressIn.addEventListener('keydown', (e) => {
+    const items = dropdown.querySelectorAll('.tuktuk-suburb-item');
+    if (!items.length) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIndex = Math.min(activeIndex + 1, items.length - 1);
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIndex));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIndex = Math.max(activeIndex - 1, 0);
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIndex));
+    } else if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault();
+      items[activeIndex].dispatchEvent(new Event('mousedown'));
+    }
+  });
+
+  // Close dropdown on blur
+  addressIn.addEventListener('blur', () => {
+    setTimeout(() => { dropdown.style.display = 'none'; }, 150);
+  });
+
+  // Re-open on focus if there's text
+  addressIn.addEventListener('focus', () => {
+    if (addressIn.value.trim().length >= 2) {
+      addressIn.dispatchEvent(new Event('input'));
+    }
+  });
+
+  /* ============================================================
      CUSTOM CALENDAR — date range support
-     Click once = single date, click a second date = range
      ============================================================ */
   const cal       = document.getElementById('tuktuk-cal');
   const calTitle  = document.getElementById('cal-title');
@@ -36,14 +221,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let viewYear    = today.getFullYear();
   let viewMonth   = today.getMonth();
-  let startDate   = null;  // first click
-  let endDate     = null;  // second click (range end)
+  let startDate   = null;
+  let endDate     = null;
 
   const MONTHS = ['January','February','March','April','May','June',
                   'July','August','September','October','November','December'];
   const DAYS   = ['Mo','Tu','We','Th','Fr','Sa','Su'];
 
-  // Day header row
   DAYS.forEach(d => {
     const el = document.createElement('span');
     el.className = 'tuktuk-cal-day-name';
@@ -55,25 +239,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const dayName = date.toLocaleDateString('en-AU', { weekday: 'short' });
     const d = date.getDate();
     const monthName = date.toLocaleDateString('en-AU', { month: 'short' });
-    const yr = date.getFullYear();
-    return `${dayName} ${d} ${monthName} ${yr}`;
+    return `${dayName} ${d} ${monthName} ${date.getFullYear()}`;
   }
 
   function toIso(date) {
-    const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2, '0');
-    const d = String(date.getDate()).padStart(2, '0');
-    return `${y}-${m}-${d}`;
+    return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
   }
 
-  function isSameDay(a, b) {
-    return a && b && a.getTime() === b.getTime();
-  }
-
-  function isInRange(date) {
-    if (!startDate || !endDate) return false;
-    return date >= startDate && date <= endDate;
-  }
+  function isSameDay(a, b) { return a && b && a.getTime() === b.getTime(); }
+  function isInRange(date) { return startDate && endDate && date >= startDate && date <= endDate; }
 
   function updateDateField() {
     if (startDate && endDate && !isSameDay(startDate, endDate)) {
@@ -86,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dateIn.value = '';
       dateIso.value = '';
     }
+    updateEstimate();
   }
 
   function renderCalendar() {
@@ -111,49 +286,27 @@ document.addEventListener('DOMContentLoaded', () => {
       const cellDate = new Date(viewYear, viewMonth, d);
       cellDate.setHours(0, 0, 0, 0);
 
-      // Past dates
-      if (cellDate < today) {
-        cell.classList.add('tuktuk-cal-cell--past');
-        cell.disabled = true;
-      }
+      if (cellDate < today) { cell.classList.add('tuktuk-cal-cell--past'); cell.disabled = true; }
+      if (isSameDay(cellDate, today)) cell.classList.add('tuktuk-cal-cell--today');
 
-      // Today
-      if (isSameDay(cellDate, today)) {
-        cell.classList.add('tuktuk-cal-cell--today');
-      }
-
-      // Start date
       if (isSameDay(cellDate, startDate)) {
         cell.classList.add('tuktuk-cal-cell--selected');
-        if (endDate && !isSameDay(startDate, endDate)) {
-          cell.classList.add('tuktuk-cal-cell--range-start');
-        }
+        if (endDate && !isSameDay(startDate, endDate)) cell.classList.add('tuktuk-cal-cell--range-start');
       }
-
-      // End date
       if (endDate && isSameDay(cellDate, endDate) && !isSameDay(startDate, endDate)) {
         cell.classList.add('tuktuk-cal-cell--selected');
         cell.classList.add('tuktuk-cal-cell--range-end');
       }
-
-      // In range (between start and end)
       if (isInRange(cellDate) && !isSameDay(cellDate, startDate) && !isSameDay(cellDate, endDate)) {
         cell.classList.add('tuktuk-cal-cell--in-range');
       }
 
       cell.addEventListener('click', () => {
         if (!startDate || (startDate && endDate)) {
-          // First click or reset
-          startDate = cellDate;
-          endDate = null;
+          startDate = cellDate; endDate = null;
         } else {
-          // Second click — set range
-          if (cellDate < startDate) {
-            endDate = startDate;
-            startDate = cellDate;
-          } else {
-            endDate = cellDate;
-          }
+          if (cellDate < startDate) { endDate = startDate; startDate = cellDate; }
+          else { endDate = cellDate; }
         }
         updateDateField();
         renderCalendar();
@@ -165,95 +318,13 @@ document.addEventListener('DOMContentLoaded', () => {
     calPrev.disabled = (viewYear === today.getFullYear() && viewMonth === today.getMonth());
   }
 
-  // Confirm button closes calendar
-  calDone.addEventListener('click', () => {
-    if (startDate) {
-      cal.classList.remove('open');
-    }
-  });
-
-  // Toggle calendar
-  dateIn.addEventListener('click', () => {
-    cal.classList.toggle('open');
-  });
-
-  // Close when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.tuktuk-date-wrap')) {
-      cal.classList.remove('open');
-    }
-  });
-
-  calPrev.addEventListener('click', () => {
-    viewMonth--;
-    if (viewMonth < 0) { viewMonth = 11; viewYear--; }
-    renderCalendar();
-  });
-
-  calNext.addEventListener('click', () => {
-    viewMonth++;
-    if (viewMonth > 11) { viewMonth = 0; viewYear++; }
-    renderCalendar();
-  });
+  calDone.addEventListener('click', () => { if (startDate) cal.classList.remove('open'); });
+  dateIn.addEventListener('click', () => { cal.classList.toggle('open'); });
+  document.addEventListener('click', (e) => { if (!e.target.closest('.tuktuk-date-wrap')) cal.classList.remove('open'); });
+  calPrev.addEventListener('click', () => { viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; } renderCalendar(); });
+  calNext.addEventListener('click', () => { viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } renderCalendar(); });
 
   renderCalendar();
-
-  /* ============================================================
-     GOOGLE PLACES — Extended Component Library (gmpx-place-picker)
-     Loads API key from /api/maps-key, sets it on the loader element.
-     On place selection, stores address in hidden field and validates.
-     ============================================================ */
-  const placePicker = document.getElementById('place-picker');
-  const gmpxLoader  = document.getElementById('gmpx-loader');
-
-  // Load API key dynamically
-  (async function initPlaces() {
-    try {
-      const res = await fetch('/api/maps-key');
-      const data = await res.json();
-      if (data.key && gmpxLoader) {
-        gmpxLoader.setAttribute('key', data.key);
-      }
-    } catch (e) {
-      // No key — place picker still renders as a text input
-    }
-  })();
-
-  // Listen for place selection
-  if (placePicker) {
-    placePicker.addEventListener('gmpx-placechange', () => {
-      const place = placePicker.value;
-      if (place && place.formattedAddress) {
-        addressIn.value = place.formattedAddress;
-      } else if (place && place.displayName) {
-        addressIn.value = place.displayName;
-      }
-      updateEstimate();
-    });
-  }
-
-  /* ============================================================
-     BLOCKED LOCATIONS
-     ============================================================ */
-  const blockedSuburbs = [
-    'adelaide hills', 'mount lofty', 'stirling', 'crafers', 'bridgewater',
-    'hahndorf', 'lobethal', 'woodside', 'birdwood', 'gumeracha',
-    'mount barker', 'nairne', 'littlehampton', 'echunga', 'meadows',
-    'macclesfield', 'strathalbyn', 'mylor', 'aldgate', 'basket range',
-    'norton summit', 'uraidla', 'summertown', 'piccadilly', 'greenhill',
-    'carey gully', 'ashton', 'lenswood', 'forest range', 'lobethal',
-    'charleston', 'mount pleasant', 'williamstown', 'chain of ponds',
-    'kersbrook', 'williamstown', 'mount torrens', 'palmer',
-    'mannum', 'murray bridge', 'victor harbor', 'port augusta',
-    'port lincoln', 'whyalla', 'mount gambier', 'clare', 'barossa',
-    'tanunda', 'nuriootpa', 'angaston', 'lyndoch', 'kapunda',
-    'renmark', 'berri', 'loxton', 'waikerie', 'riverland'
-  ];
-
-  function isBlocked(location) {
-    const lower = location.toLowerCase().trim();
-    return blockedSuburbs.some(s => lower.includes(s));
-  }
 
   /* ============================================================
      PRICING
@@ -286,7 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
     hint.className = 'tuktuk-form-hint tuktuk-form-hint--ok';
 
     if (guests && pricing[guests]) {
-      // Multiply by number of days if multi-day
       let days = 1;
       if (startDate && endDate) {
         days = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
@@ -298,16 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  addressIn.addEventListener('input', updateEstimate);
-  addressIn.addEventListener('change', updateEstimate);
   guestsIn.addEventListener('change', updateEstimate);
-
-  // Also update estimate when dates change
-  const origUpdateDateField = updateDateField;
-  const dateObserver = new MutationObserver(updateEstimate);
-  dateIso.addEventListener('change', updateEstimate);
-  // Patch updateDateField to also trigger estimate
-  const _origUpdate = updateDateField;
 
   /* ============================================================
      FORM SUBMISSION
@@ -324,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (!address) {
-      if (placePicker) placePicker.focus();
+      addressIn.focus();
       hint.textContent = 'Please select a location.';
       hint.className = 'tuktuk-form-hint tuktuk-form-hint--blocked';
       return;
@@ -336,7 +397,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Calculate days and total
     let days = 1;
     if (startDate && endDate) {
       days = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
