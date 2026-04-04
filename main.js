@@ -204,6 +204,45 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ----------------------------------------------------------
+     INSTAGRAM FEED
+  ---------------------------------------------------------- */
+  const igScroll = document.getElementById('ig-feed-scroll');
+
+  if (igScroll) {
+    fetch('/api/instagram')
+      .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+      .then(data => {
+        if (!data.posts || !data.posts.length) return;
+
+        data.posts.forEach(post => {
+          const card = document.createElement('a');
+          card.href = post.url;
+          card.target = '_blank';
+          card.rel = 'noopener';
+          card.className = 'ig-card';
+
+          const img = document.createElement('img');
+          img.src = post.image;
+          img.alt = post.caption.slice(0, 80) || 'Instagram post';
+          img.loading = 'lazy';
+          card.appendChild(img);
+
+          const overlay = document.createElement('div');
+          overlay.className = 'ig-card-overlay';
+          const caption = document.createElement('p');
+          caption.textContent = post.caption.slice(0, 100) + (post.caption.length > 100 ? '...' : '');
+          overlay.appendChild(caption);
+          card.appendChild(overlay);
+
+          igScroll.appendChild(card);
+        });
+      })
+      .catch(() => {
+        // Silently fail — section just stays empty
+      });
+  }
+
+  /* ----------------------------------------------------------
      VIDEO — ensure autoplay on mobile (muted required)
   ---------------------------------------------------------- */
   document.querySelectorAll('video[autoplay]').forEach(v => {
