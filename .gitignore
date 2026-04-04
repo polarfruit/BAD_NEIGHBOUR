@@ -1,6 +1,11 @@
 # macOS
 .DS_Store
 
+# Node
+node_modules/
+.env
+.env.local
+
 # Ruflo / Claude Code internals
 .claude-flow/
 .swarm/

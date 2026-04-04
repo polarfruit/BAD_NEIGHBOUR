@@ -99,11 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
   guestsIn.addEventListener('change', updateEstimate);
 
   /* ----------------------------------------------------------
-     FORM SUBMISSION
-     Currently: shows success message
-     Later: POST to /api/booking (Vercel serverless + Square)
+     FORM SUBMISSION — POST to /api/booking
   ---------------------------------------------------------- */
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const address = addressIn.value.trim();
@@ -124,29 +122,37 @@ document.addEventListener('DOMContentLoaded', () => {
       event_type: document.getElementById('book-event-type').value,
       guests:     guestsIn.value,
       address:    address,
-      message:    document.getElementById('book-message').value,
-      price:      pricing[guestsIn.value] || null
+      message:    document.getElementById('book-message').value
     };
 
     // Disable submit
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
 
-    /* ---------------------------------------------------
-       TODO: Replace with actual API call
-       fetch('/api/booking', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(data)
-       }).then(res => res.json()).then(result => { ... })
-    --------------------------------------------------- */
+    try {
+      const response = await fetch('/api/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
 
-    // For now: simulate success after short delay
-    setTimeout(() => {
-      form.style.display     = 'none';
-      successEl.style.display = 'block';
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Something went wrong.');
+      }
+
+      // Success
+      form.style.display      = 'none';
+      successEl.style.display  = 'block';
       successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 800);
+
+    } catch (err) {
+      // Show error, re-enable button
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Enquiry';
+      alert(err.message || 'Something went wrong. Please try again.');
+    }
   });
 
 });
