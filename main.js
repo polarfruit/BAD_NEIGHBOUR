@@ -101,6 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!href) return;
     if (path.endsWith('menu.html') && href.includes('menu.html')) {
       link.classList.add('active');
+    } else if (path.endsWith('tuktuk.html') && href.includes('tuktuk.html')) {
+      link.classList.add('active');
     } else if ((path === '/' || path.endsWith('index.html') || path === '') && href.includes('index.html')) {
       link.classList.add('active');
     }

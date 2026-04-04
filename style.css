@@ -1049,3 +1049,456 @@ footer {
 @media (max-width: 480px) {
   .hero-cta { flex-direction: column; align-items: center; }
 }
+
+/* ============================================================
+   TUK TUK PAGE
+   ============================================================ */
+
+/* Hero */
+.tuktuk-hero {
+  background: var(--green);
+  padding: calc(var(--nav-h) + 5rem) 2.5rem 5rem;
+  text-align: center;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tuktuk-hero-content { max-width: 800px; }
+.tuktuk-hero-eyebrow {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--cream);
+  opacity: 0.5;
+  margin-bottom: 2rem;
+}
+.tuktuk-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 16vw, 12rem);
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+}
+.tuktuk-hero h1 span { display: block; }
+.tuktuk-hero-sub {
+  margin-top: 2rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--cream);
+  opacity: 0.75;
+  margin-bottom: 2.5rem;
+}
+
+/* Sections */
+.tuktuk-section { padding: 5rem 2.5rem; }
+.tuktuk-section-inner { max-width: 1100px; margin: 0 auto; }
+
+.tuktuk-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 10vw, 7rem);
+  text-transform: uppercase;
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+  margin-bottom: 3rem;
+}
+
+/* What We Bring */
+.tuktuk-what { background: var(--cream); color: var(--green); }
+.tuktuk-what .tuktuk-section-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.tuktuk-what-text p {
+  font-size: 1rem;
+  line-height: 1.8;
+  opacity: 0.8;
+  margin-bottom: 0.75rem;
+}
+.tuktuk-what-list h3 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--mid-green);
+  margin-bottom: 1.5rem;
+}
+.tuktuk-what-list ul {
+  list-style: none;
+}
+.tuktuk-what-list li {
+  font-size: 1rem;
+  line-height: 1.6;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(27,52,39,0.1);
+  position: relative;
+  padding-left: 1.5rem;
+}
+.tuktuk-what-list li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: var(--mid-green);
+  font-weight: 700;
+}
+
+/* Perfect For — Event Cards */
+.tuktuk-events { background: var(--green); color: var(--cream); }
+.tuktuk-events .tuktuk-h2 { color: var(--white); }
+.tuktuk-events .section-eyebrow { color: var(--mid-green); }
+
+.tuktuk-event-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.tuktuk-event-card {
+  border: 1px solid rgba(245,242,232,0.12);
+  padding: 2rem;
+  transition: border-color 200ms ease;
+}
+.tuktuk-event-card:hover {
+  border-color: rgba(245,242,232,0.35);
+}
+.tuktuk-event-icon {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+.tuktuk-event-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+}
+.tuktuk-event-card p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  opacity: 0.65;
+}
+
+/* Packages */
+.tuktuk-packages { background: var(--cream); color: var(--green); }
+
+.tuktuk-package-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.tuktuk-package-card {
+  border: 2px solid rgba(27,52,39,0.12);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  transition: border-color 200ms ease;
+}
+.tuktuk-package-card:hover {
+  border-color: var(--green);
+}
+.tuktuk-package-card--featured {
+  background: var(--green);
+  color: var(--cream);
+  border-color: var(--green);
+}
+.tuktuk-package-badge {
+  position: absolute;
+  top: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--mid-green);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 0.35em 1em;
+  white-space: nowrap;
+}
+.tuktuk-package-label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  opacity: 0.5;
+}
+.tuktuk-package-price {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  text-transform: uppercase;
+  line-height: 1;
+}
+.tuktuk-package-range {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-bottom: 0.5rem;
+}
+.tuktuk-package-card p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  opacity: 0.65;
+  margin-bottom: 1.5rem;
+}
+.tuktuk-package-card .btn {
+  margin-top: auto;
+}
+.tuktuk-package-note {
+  text-align: center;
+  font-size: 0.8rem;
+  opacity: 0.5;
+  line-height: 1.7;
+  margin-top: 1rem;
+}
+
+/* How It Works */
+.tuktuk-how { background: var(--cream); color: var(--green); }
+
+.tuktuk-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+}
+.tuktuk-step-num {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 5rem);
+  color: var(--green);
+  opacity: 0.12;
+  display: block;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+.tuktuk-step h3 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+.tuktuk-step p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  opacity: 0.7;
+}
+
+/* Booking Form */
+.tuktuk-book { background: var(--green); color: var(--cream); }
+.tuktuk-book .tuktuk-h2 { color: var(--white); }
+.tuktuk-book .section-eyebrow { color: var(--mid-green); }
+
+.tuktuk-form {
+  max-width: 700px;
+}
+.tuktuk-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.tuktuk-form-field { display: flex; flex-direction: column; gap: 0.5rem; }
+.tuktuk-form-field--full { margin-bottom: 1.5rem; }
+
+.tuktuk-form label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--cream);
+  opacity: 0.6;
+}
+.tuktuk-form input,
+.tuktuk-form select,
+.tuktuk-form textarea {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.85rem 1rem;
+  background: rgba(245,242,232,0.08);
+  border: 1px solid rgba(245,242,232,0.2);
+  color: var(--cream);
+  outline: none;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+.tuktuk-form input::placeholder,
+.tuktuk-form textarea::placeholder {
+  color: var(--cream);
+  opacity: 0.3;
+}
+.tuktuk-form input:focus,
+.tuktuk-form select:focus,
+.tuktuk-form textarea:focus {
+  border-color: rgba(245,242,232,0.5);
+  background: rgba(245,242,232,0.12);
+}
+.tuktuk-form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23F5F2E8' stroke-width='1.5' fill='none' opacity='.4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+.tuktuk-form select option {
+  background: var(--green);
+  color: var(--cream);
+}
+.tuktuk-form textarea { resize: vertical; min-height: 100px; }
+
+.tuktuk-form-hint {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  opacity: 0.5;
+  min-height: 1.2em;
+}
+.tuktuk-form-hint--ok { color: #6dbf8b; opacity: 1; }
+.tuktuk-form-hint--blocked { color: #e87461; opacity: 1; }
+
+/* Price Estimate */
+.tuktuk-estimate {
+  margin-bottom: 2rem;
+  animation: fadeIn 300ms ease;
+}
+.tuktuk-estimate-inner {
+  background: rgba(245,242,232,0.06);
+  border: 1px solid rgba(245,242,232,0.15);
+  padding: 1.5rem 2rem;
+  text-align: center;
+}
+.tuktuk-estimate-label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  opacity: 0.5;
+  margin-bottom: 0.5rem;
+}
+.tuktuk-estimate-price {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--white);
+}
+.tuktuk-estimate-note {
+  font-size: 0.75rem;
+  opacity: 0.4;
+  margin-top: 0.5rem;
+}
+
+/* Blocked Location */
+.tuktuk-blocked {
+  background: rgba(232,116,97,0.1);
+  border: 1px solid rgba(232,116,97,0.3);
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  animation: fadeIn 300ms ease;
+}
+.tuktuk-blocked p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #e87461;
+}
+.tuktuk-blocked p + p { margin-top: 0.5rem; opacity: 0.8; }
+
+/* Submit */
+.tuktuk-submit {
+  width: 100%;
+  padding: 1.1rem 2rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.tuktuk-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Success */
+.tuktuk-success {
+  text-align: center;
+  padding: 3rem 0;
+  animation: fadeIn 400ms ease;
+}
+.tuktuk-success h3 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+.tuktuk-success p {
+  font-size: 1rem;
+  line-height: 1.8;
+  opacity: 0.7;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Closing */
+.tuktuk-closing { background: var(--cream); text-align: center; padding: 6rem 2.5rem; }
+.tuktuk-closing-text {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  text-transform: uppercase;
+  color: var(--green);
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+}
+.tuktuk-closing-sub {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  opacity: 0.6;
+}
+
+/* ============================================================
+   TUK TUK — MOBILE
+   ============================================================ */
+@media (max-width: 768px) {
+  .tuktuk-hero { min-height: 60vh; padding: calc(var(--nav-h) + 3rem) 1.25rem 3rem; }
+  .tuktuk-section { padding: 3.5rem 1.25rem; }
+
+  .tuktuk-what .tuktuk-section-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .tuktuk-event-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .tuktuk-package-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .tuktuk-steps {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .tuktuk-form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .tuktuk-closing { padding: 4rem 1.25rem; }
+  .tuktuk-closing-text br { display: none; }
+}
+
+@media (max-width: 480px) {
+  .tuktuk-event-grid { grid-template-columns: 1fr; }
+}
