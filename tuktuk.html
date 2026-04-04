@@ -252,9 +252,20 @@
             <label for="book-phone">Phone *</label>
             <input type="tel" id="book-phone" name="phone" required placeholder="04XX XXX XXX">
           </div>
-          <div class="tuktuk-form-field">
+          <div class="tuktuk-form-field tuktuk-date-wrap">
             <label for="book-date">Event Date *</label>
-            <input type="date" id="book-date" name="date" required>
+            <input type="text" id="book-date" name="date" required readonly placeholder="Pick a date"
+                   autocomplete="off">
+            <input type="hidden" id="book-date-iso" name="date_iso">
+            <div class="tuktuk-cal" id="tuktuk-cal">
+              <div class="tuktuk-cal-head">
+                <button type="button" class="tuktuk-cal-prev" id="cal-prev" aria-label="Previous month">&#8592;</button>
+                <span class="tuktuk-cal-title" id="cal-title"></span>
+                <button type="button" class="tuktuk-cal-next" id="cal-next" aria-label="Next month">&#8594;</button>
+              </div>
+              <div class="tuktuk-cal-days" id="cal-days-header"></div>
+              <div class="tuktuk-cal-grid" id="cal-grid"></div>
+            </div>
           </div>
         </div>
 

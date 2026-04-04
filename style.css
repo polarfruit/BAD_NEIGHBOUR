@@ -1361,6 +1361,119 @@ footer {
 }
 .tuktuk-form textarea { resize: vertical; min-height: 100px; }
 
+/* Custom Calendar */
+.tuktuk-date-wrap { position: relative; }
+.tuktuk-cal {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 50;
+  background: var(--green);
+  border: 1px solid rgba(245,242,232,0.2);
+  padding: 1.25rem;
+  width: 320px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+}
+.tuktuk-cal.open { display: block; animation: fadeIn 200ms ease; }
+
+.tuktuk-cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.tuktuk-cal-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+.tuktuk-cal-prev,
+.tuktuk-cal-next {
+  background: none;
+  border: 1px solid rgba(245,242,232,0.2);
+  color: var(--cream);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+.tuktuk-cal-prev:hover,
+.tuktuk-cal-next:hover {
+  background: rgba(245,242,232,0.1);
+  border-color: rgba(245,242,232,0.4);
+}
+.tuktuk-cal-prev:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+.tuktuk-cal-prev:disabled:hover { background: none; }
+
+.tuktuk-cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 4px;
+}
+.tuktuk-cal-day-name {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--cream);
+  opacity: 0.35;
+  text-align: center;
+  padding: 4px 0;
+}
+
+.tuktuk-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.tuktuk-cal-cell {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--cream);
+  background: none;
+  border: 1px solid transparent;
+  padding: 8px 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+.tuktuk-cal-cell:hover {
+  background: rgba(245,242,232,0.1);
+  border-color: rgba(245,242,232,0.25);
+}
+.tuktuk-cal-cell--empty { cursor: default; }
+.tuktuk-cal-cell--past {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+.tuktuk-cal-cell--past:hover { background: none; border-color: transparent; }
+.tuktuk-cal-cell--today {
+  border-color: rgba(245,242,232,0.3);
+}
+.tuktuk-cal-cell--selected {
+  background: var(--cream);
+  color: var(--green);
+  font-weight: 700;
+  border-color: var(--cream);
+}
+.tuktuk-cal-cell--selected:hover {
+  background: var(--cream);
+  border-color: var(--cream);
+}
+
 .tuktuk-form-hint {
   font-size: 0.75rem;
   margin-top: 0.25rem;
