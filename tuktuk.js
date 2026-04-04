@@ -21,9 +21,82 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!form) return;
 
   /* ============================================================
-     ADELAIDE SUBURBS — no API needed
-     Blocked suburbs omitted from this list entirely.
+     ADELAIDE LOCATIONS — suburbs, venues, parks, landmarks
+     No API needed. Blocked areas omitted entirely.
      ============================================================ */
+  const LOCATIONS = [
+    // ---- VENUES & EVENT SPACES ----
+    { name: 'Adelaide Convention Centre', area: 'North Terrace, Adelaide' },
+    { name: 'Adelaide Entertainment Centre', area: 'Hindmarsh' },
+    { name: 'Adelaide Oval', area: 'North Adelaide' },
+    { name: 'Adelaide Showground', area: 'Wayville' },
+    { name: 'Adelaide Town Hall', area: 'King William St, Adelaide' },
+    { name: 'Adelaide Zoo', area: 'Frome Rd, Adelaide' },
+    { name: 'Botanic Gardens', area: 'North Terrace, Adelaide' },
+    { name: 'Brighton Surf Life Saving Club', area: 'Brighton' },
+    { name: 'Carrick Hill', area: 'Springfield' },
+    { name: 'Coopers Stadium', area: 'Hindmarsh' },
+    { name: 'Elder Park', area: 'Adelaide' },
+    { name: 'Glenelg Town Hall', area: 'Glenelg' },
+    { name: 'Harbour Town Adelaide', area: 'Adelaide Airport' },
+    { name: 'Henley Beach Square', area: 'Henley Beach' },
+    { name: 'Marion Cultural Centre', area: 'Marion' },
+    { name: 'McLaren Vale Visitor Centre', area: 'McLaren Vale' },
+    { name: 'Morphettville Racecourse', area: 'Morphettville' },
+    { name: 'National Wine Centre', area: 'Botanic Rd, Adelaide' },
+    { name: 'Norwood Oval', area: 'Norwood' },
+    { name: 'Penfolds Magill Estate', area: 'Magill' },
+    { name: 'Rundle Mall', area: 'Adelaide CBD' },
+    { name: 'SA Museum', area: 'North Terrace, Adelaide' },
+    { name: 'Semaphore Foreshore', area: 'Semaphore' },
+    { name: 'The Bend Motorsport Park', area: 'Tailem Bend' },
+    { name: 'Victoria Square', area: 'Adelaide CBD' },
+    { name: 'Wayville Showgrounds', area: 'Wayville' },
+    { name: 'West Beach Parks', area: 'West Beach' },
+    // ---- HOTELS & FUNCTION CENTRES ----
+    { name: 'Adelaide Hilton', area: 'Victoria Square, Adelaide' },
+    { name: 'Crowne Plaza Adelaide', area: 'Hindmarsh Square, Adelaide' },
+    { name: 'Hotel Richmond', area: 'Rundle Mall, Adelaide' },
+    { name: 'InterContinental Adelaide', area: 'North Terrace, Adelaide' },
+    { name: 'Majestic Roof Garden Hotel', area: 'Frome St, Adelaide' },
+    { name: 'Novotel Adelaide', area: 'Hindley St, Adelaide' },
+    { name: 'Oval Hotel', area: 'North Adelaide' },
+    { name: 'Pier Hotel', area: 'Glenelg' },
+    { name: 'Playford Hotel', area: 'North Terrace, Adelaide' },
+    { name: 'Stamford Grand Adelaide', area: 'Glenelg' },
+    { name: 'Stamford Plaza Adelaide', area: 'North Terrace, Adelaide' },
+    // ---- PARKS & OUTDOOR ----
+    { name: 'Adelaide Park Lands', area: 'Adelaide' },
+    { name: 'Bonython Park', area: 'Adelaide' },
+    { name: 'Botanic Park', area: 'Adelaide' },
+    { name: 'Glenelg Foreshore', area: 'Glenelg' },
+    { name: 'Hazelwood Park', area: 'Hazelwood Park' },
+    { name: 'Henley Square', area: 'Henley Beach' },
+    { name: 'Linear Park', area: 'Various' },
+    { name: 'Morialta Conservation Park', area: 'Rostrevor' },
+    { name: 'Rymill Park', area: 'Adelaide' },
+    { name: 'Veale Gardens', area: 'Adelaide' },
+    { name: 'Wittunga Botanic Garden', area: 'Blackwood' },
+    // ---- SCHOOLS & UNIVERSITIES ----
+    { name: 'Adelaide University', area: 'North Terrace, Adelaide' },
+    { name: 'Flinders University', area: 'Bedford Park' },
+    { name: 'UniSA City West', area: 'Adelaide' },
+    { name: 'UniSA Mawson Lakes', area: 'Mawson Lakes' },
+    // ---- SHOPPING CENTRES ----
+    { name: 'Burnside Village', area: 'Burnside' },
+    { name: 'Colonnades Shopping Centre', area: 'Noarlunga Centre' },
+    { name: 'Elizabeth City Centre', area: 'Elizabeth' },
+    { name: 'Marion Shopping Centre', area: 'Marion' },
+    { name: 'Mitcham Square', area: 'Mitcham' },
+    { name: 'Norwood Place', area: 'Norwood' },
+    { name: 'Parabanks Shopping Centre', area: 'Salisbury' },
+    { name: 'Tea Tree Plaza', area: 'Modbury' },
+    { name: 'West Lakes Mall', area: 'West Lakes' },
+    { name: 'Westfield Marion', area: 'Marion' },
+    { name: 'Westfield West Lakes', area: 'West Lakes' }
+  ];
+
+  // ---- SUBURBS (same as before) ----
   const SUBURBS = [
     'Aberfoyle Park','Adelaide','Albert Park','Alberton','Aldinga','Aldinga Beach',
     'Allenby Gardens','Angle Park','Angle Vale','Ascot Park','Athelstone',
@@ -31,15 +104,15 @@ document.addEventListener('DOMContentLoaded', () => {
     'Bellevue Heights','Beverley','Birkenhead','Blair Athol','Blakeview',
     'Bolivar','Bowden','Brahma Lodge','Brighton','Broadview','Brompton',
     'Brooklyn Park','Brown Hill Creek','Burnside','Burton','Camden Park',
-    'Campbelltown','Castle Plaza','Cavan','Cheltenham','Christie Downs',
+    'Campbelltown','Cavan','Cheltenham','Christie Downs',
     'Christies Beach','Clarence Gardens','Clarence Park','Clearview',
-    'Clovelly Park','Collinswood','Colonel Light Gardens','Colonnades',
+    'Clovelly Park','Collinswood','Colonel Light Gardens',
     'Coromandel Valley','Cowandilla','Craigburn Farm','Croydon','Croydon Park',
     'Cumberland Park','Darlington','Davoren Park','Daw Park','Devon Park',
     'Dernancourt','Dry Creek','Dulwich','East Adelaide','Eastwood',
     'Eden Hills','Edwardstown','Elizabeth','Elizabeth Downs','Elizabeth East',
     'Elizabeth Grove','Elizabeth North','Elizabeth Park','Elizabeth South',
-    'Elizabeth Vale','Encounter Bay','Enfield','Erindale','Ethelton',
+    'Elizabeth Vale','Enfield','Erindale','Ethelton',
     'Evandale','Evanston','Evanston Gardens','Evanston Park','Everard Park',
     'Exeter','Fairview Park','Felixstow','Ferryden Park','Findon',
     'Firle','Flagstaff Hill','Flinders Park','Forestville','Frewville',
@@ -49,24 +122,24 @@ document.addEventListener('DOMContentLoaded', () => {
     'Glengowrie','Glenelg','Glenelg East','Glenelg North','Glenelg South',
     'Glenside','Golden Grove','Goodwood','Gould Creek','Grange',
     'Greenacres','Greenfields','Greenwith','Gulfview Heights',
-    'Hackham','Hackham West','Hackney','Haigh Park','Hallett Cove',
+    'Hackham','Hackham West','Hackney','Hallett Cove',
     'Hampstead Gardens','Happy Valley','Hawthorn','Hawthorndene',
-    'Hayborough','Hendon','Henley Beach','Henley Beach South','Highbury',
+    'Hendon','Henley Beach','Henley Beach South','Highbury',
     'Highgate','Hillbank','Hillcrest','Hilton','Hindmarsh',
     'Holden Hill','Hope Valley','Hove','Huntfield Heights','Hyde Park',
-    'Ingle Farm','Joslin','Kangarilla','Kensington','Kensington Gardens',
+    'Ingle Farm','Joslin','Kensington','Kensington Gardens',
     'Kensington Park','Kent Town','Keswick','Kidman Park','Kilburn',
-    'Kilkenny','Kings Park','Kingston Park','Klemzig','Knoxville',
+    'Kilkenny','Kings Park','Kingston Park','Klemzig',
     'Largs Bay','Largs North','Leabrook','Lightsview','Linden Park',
     'Lockleys','Lower Mitcham','Lonsdale','Magill','Malvern',
     'Manningham','Mansfield Park','Marden','Marion','Marino',
     'Marleston','Maslin Beach','Mawson Lakes','Maylands','McLaren Flat',
     'McLaren Vale','Medindie','Melrose Park','Mile End','Millswood',
     'Mitcham','Mitchell Park','Modbury','Modbury Heights','Modbury North',
-    'Moana','Montacute','Morphett Vale','Morphettville','Mount Osmond',
+    'Moana','Morphett Vale','Morphettville','Mount Osmond',
     'Munno Para','Munno Para Downs','Munno Para West','Myrtle Bank',
-    'Nailsworth','Nethercote','Netherby','Netley','New Port',
-    'Newton','Noarlunga Centre','Noarlunga Downs','Normanville',
+    'Nailsworth','Netherby','Netley',
+    'Newton','Noarlunga Centre','Noarlunga Downs',
     'North Adelaide','North Brighton','North Haven','North Plympton',
     'Northfield','Northgate','Norwood','Novar Gardens','Oakden',
     'Oaklands Park','Old Noarlunga','Old Reynella','One Tree Hill',
@@ -74,11 +147,11 @@ document.addEventListener('DOMContentLoaded', () => {
     'Panorama','Paradise','Parafield','Parafield Gardens','Para Hills',
     'Para Hills West','Para Vista','Paralowie','Park Holme',
     'Parkside','Pasadena','Payneham','Payneham South','Pennington',
-    'Penola','Peterhead','Piccadilly','Plympton','Plympton Park',
-    'Point Cook','Pooraka','Port Adelaide','Port Noarlunga',
+    'Peterhead','Plympton','Plympton Park',
+    'Pooraka','Port Adelaide','Port Noarlunga',
     'Port Noarlunga South','Port Willunga','Prospect','Queenstown',
-    'Redwood Park','Regency Park','Reid','Renown Park','Reynella',
-    'Reynella East','Richmond','Ridgehaven','Ridleyton','Risdon Park',
+    'Redwood Park','Regency Park','Renown Park','Reynella',
+    'Reynella East','Richmond','Ridgehaven','Ridleyton',
     'Rose Park','Rosewater','Rosslyn Park','Rostrevor','Royal Park',
     'Royston Park','St Agnes','St Clair','St Georges','St Kilda',
     'St Marys','St Morris','St Peters','Salisbury','Salisbury Downs',
@@ -88,11 +161,11 @@ document.addEventListener('DOMContentLoaded', () => {
     'Seacliff Park','Seaton','Seaview Downs','Sellicks Beach',
     'Semaphore','Semaphore Park','Semaphore South','Sheidow Park',
     'Smithfield','Smithfield Plains','Somerton Park','South Brighton',
-    'South Plympton','Springfield','St Agnes','Sturt','Surrey Downs',
+    'South Plympton','Springfield','Sturt','Surrey Downs',
     'Tea Tree Gully','Tennyson','Thebarton','Thorngate','Toorak Gardens',
     'Torrensville','Torrens Park','Totness','Tranmere','Trinity Gardens',
     'Trott Park','Tusmore','Two Wells','Underdale','Unley',
-    'Unley Park','Vale Park','Valley View','Verdun','Virginia',
+    'Unley Park','Vale Park','Valley View','Virginia',
     'Vista','Walkerville','Walkley Heights','Warradale',
     'Waterfall Gully','Waterloo Corner','Wayville','Welland',
     'West Beach','West Croydon','West Hindmarsh','West Lakes',
@@ -130,21 +203,36 @@ document.addEventListener('DOMContentLoaded', () => {
      ============================================================ */
   let activeIndex = -1;
 
-  function showDropdown(matches) {
+  function showDropdown(venueMatches, suburbMatches) {
     dropdown.innerHTML = '';
     activeIndex = -1;
 
-    if (!matches.length) {
+    if (!venueMatches.length && !suburbMatches.length) {
       dropdown.style.display = 'none';
       return;
     }
 
-    matches.slice(0, 8).forEach((suburb, i) => {
+    // Show venue/location results first
+    venueMatches.slice(0, 4).forEach((loc) => {
+      const item = document.createElement('div');
+      item.className = 'tuktuk-suburb-item tuktuk-suburb-item--venue';
+      item.innerHTML = '<strong>' + loc.name + '</strong> <span class="tuktuk-suburb-area">— ' + loc.area + '</span>';
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        addressIn.value = loc.name + ', ' + loc.area;
+        dropdown.style.display = 'none';
+        updateEstimate();
+      });
+      dropdown.appendChild(item);
+    });
+
+    // Then suburb results
+    suburbMatches.slice(0, 6).forEach((suburb) => {
       const item = document.createElement('div');
       item.className = 'tuktuk-suburb-item';
       item.textContent = suburb + ', SA';
       item.addEventListener('mousedown', (e) => {
-        e.preventDefault(); // prevent blur before click registers
+        e.preventDefault();
         addressIn.value = suburb + ', SA';
         dropdown.style.display = 'none';
         updateEstimate();
@@ -162,16 +250,25 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const matches = SUBURBS.filter(s => s.toLowerCase().includes(query));
+    // Search venues/locations
+    const venueMatches = LOCATIONS.filter(loc =>
+      loc.name.toLowerCase().includes(query) || loc.area.toLowerCase().includes(query)
+    );
+    venueMatches.sort((a, b) => {
+      const aStarts = a.name.toLowerCase().startsWith(query) ? 0 : 1;
+      const bStarts = b.name.toLowerCase().startsWith(query) ? 0 : 1;
+      return aStarts - bStarts || a.name.localeCompare(b.name);
+    });
 
-    // Sort: starts-with first, then contains
-    matches.sort((a, b) => {
+    // Search suburbs
+    const suburbMatches = SUBURBS.filter(s => s.toLowerCase().includes(query));
+    suburbMatches.sort((a, b) => {
       const aStarts = a.toLowerCase().startsWith(query) ? 0 : 1;
       const bStarts = b.toLowerCase().startsWith(query) ? 0 : 1;
       return aStarts - bStarts || a.localeCompare(b);
     });
 
-    showDropdown(matches);
+    showDropdown(venueMatches, suburbMatches);
   });
 
   // Keyboard navigation

@@ -1545,6 +1545,11 @@ footer {
 .tuktuk-suburb-item.active {
   background: rgba(245,242,232,0.1);
 }
+.tuktuk-suburb-item--venue strong { font-weight: 600; }
+.tuktuk-suburb-area {
+  font-size: 0.78rem;
+  opacity: 0.6;
+}
 .tuktuk-suburb-dropdown::-webkit-scrollbar { width: 4px; }
 .tuktuk-suburb-dropdown::-webkit-scrollbar-thumb {
   background: rgba(245,242,232,0.15);
