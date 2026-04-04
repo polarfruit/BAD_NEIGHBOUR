@@ -1515,40 +1515,30 @@ footer {
 .tuktuk-form-hint--ok { color: #6dbf8b; opacity: 1; }
 .tuktuk-form-hint--blocked { color: #e87461; opacity: 1; }
 
-/* Google Places Autocomplete dropdown */
-.pac-container {
-  background: var(--green) !important;
-  border: 1px solid rgba(245,242,232,0.2) !important;
-  border-top: none !important;
-  border-radius: 0 !important;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.35) !important;
-  font-family: var(--font-body) !important;
-  margin-top: -1px;
+/* Google Places — gmpx-place-picker styling */
+.tuktuk-place-wrap gmpx-place-picker {
+  --gmpx-color-surface: rgba(245,242,232,0.08);
+  --gmpx-color-on-surface: var(--cream);
+  --gmpx-color-on-surface-variant: rgba(245,242,232,0.5);
+  --gmpx-color-primary: var(--cream);
+  --gmpx-font-family-base: var(--font-body);
+  --gmpx-font-size-base: 0.95rem;
+  width: 100%;
 }
-.pac-item {
-  padding: 10px 14px !important;
-  border-top: 1px solid rgba(245,242,232,0.08) !important;
-  color: var(--cream) !important;
-  font-size: 0.85rem !important;
-  cursor: pointer !important;
-  line-height: 1.5 !important;
+.tuktuk-place-wrap gmpx-place-picker::part(input) {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.85rem 1rem;
+  background: rgba(245,242,232,0.08);
+  border: 1px solid rgba(245,242,232,0.2);
+  color: var(--cream);
+  transition: border-color 200ms ease, background 200ms ease;
 }
-.pac-item:first-child { border-top: none !important; }
-.pac-item:hover,
-.pac-item-selected {
-  background: rgba(245,242,232,0.1) !important;
+.tuktuk-place-wrap gmpx-place-picker::part(input):focus {
+  border-color: rgba(245,242,232,0.5);
+  background: rgba(245,242,232,0.12);
+  outline: none;
 }
-.pac-item-query {
-  color: var(--white) !important;
-  font-weight: 600 !important;
-  font-size: 0.85rem !important;
-}
-.pac-matched {
-  font-weight: 700 !important;
-  color: var(--white) !important;
-}
-.pac-icon { display: none !important; }
-.pac-logo::after { display: none !important; }
 
 /* Price Estimate */
 .tuktuk-estimate {

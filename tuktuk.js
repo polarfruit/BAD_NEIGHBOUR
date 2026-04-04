@@ -199,54 +199,38 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCalendar();
 
   /* ============================================================
-     GOOGLE PLACES AUTOCOMPLETE
-     Loads API key from /api/maps-key, then initialises autocomplete
-     restricted to Australian addresses. Falls back to manual input
-     if key isn't configured yet.
+     GOOGLE PLACES — Extended Component Library (gmpx-place-picker)
+     Loads API key from /api/maps-key, sets it on the loader element.
+     On place selection, stores address in hidden field and validates.
      ============================================================ */
+  const placePicker = document.getElementById('place-picker');
+  const gmpxLoader  = document.getElementById('gmpx-loader');
+
+  // Load API key dynamically
   (async function initPlaces() {
     try {
       const res = await fetch('/api/maps-key');
       const data = await res.json();
-      if (!data.key) return; // No key yet — manual input works fine
-
-      // Load Google Maps JS
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${data.key}&libraries=places&callback=initAutocomplete`;
-      script.async = true;
-      script.defer = true;
-      document.head.appendChild(script);
+      if (data.key && gmpxLoader) {
+        gmpxLoader.setAttribute('key', data.key);
+      }
     } catch (e) {
-      // Silently fall back to manual input
+      // No key — place picker still renders as a text input
     }
   })();
 
-  // Called by Google Maps script once loaded
-  window.initAutocomplete = function() {
-    const autocomplete = new google.maps.places.Autocomplete(addressIn, {
-      types: ['geocode', 'establishment'],
-      componentRestrictions: { country: 'au' },
-      fields: ['formatted_address', 'address_components', 'geometry']
-    });
-
-    // Prevent form submit on Enter while dropdown is open
-    addressIn.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        const pac = document.querySelector('.pac-container');
-        if (pac && pac.style.display !== 'none') {
-          e.preventDefault();
-        }
-      }
-    });
-
-    autocomplete.addListener('place_changed', () => {
-      const place = autocomplete.getPlace();
-      if (place && place.formatted_address) {
-        addressIn.value = place.formatted_address;
+  // Listen for place selection
+  if (placePicker) {
+    placePicker.addEventListener('gmpx-placechange', () => {
+      const place = placePicker.value;
+      if (place && place.formattedAddress) {
+        addressIn.value = place.formattedAddress;
+      } else if (place && place.displayName) {
+        addressIn.value = place.displayName;
       }
       updateEstimate();
     });
-  };
+  }
 
   /* ============================================================
      BLOCKED LOCATIONS
@@ -336,6 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!dateIso.value) {
       dateIn.focus();
       cal.classList.add('open');
+      return;
+    }
+
+    if (!address) {
+      if (placePicker) placePicker.focus();
+      hint.textContent = 'Please select a location.';
+      hint.className = 'tuktuk-form-hint tuktuk-form-hint--blocked';
       return;
     }
 
