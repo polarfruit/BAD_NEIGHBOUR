@@ -1473,6 +1473,38 @@ footer {
   background: var(--cream);
   border-color: var(--cream);
 }
+.tuktuk-cal-cell--in-range {
+  background: rgba(245,242,232,0.15);
+  border-color: rgba(245,242,232,0.08);
+}
+.tuktuk-cal-cell--range-start {
+  border-radius: 0;
+}
+.tuktuk-cal-cell--range-end {
+  border-radius: 0;
+}
+.tuktuk-cal-done {
+  display: block;
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.65rem 1rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: var(--cream);
+  color: var(--green);
+  border: none;
+  cursor: pointer;
+  transition: opacity 150ms ease;
+}
+.tuktuk-cal-done:hover { opacity: 0.85; }
+.tuktuk-cal-hint {
+  font-size: 0.7rem;
+  opacity: 0.35;
+  margin-top: 0.25rem;
+}
 
 .tuktuk-form-hint {
   font-size: 0.75rem;

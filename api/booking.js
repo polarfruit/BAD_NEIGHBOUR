@@ -54,10 +54,10 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { name, email, phone, date, event_type, guests, address, message } = req.body;
+    const { name, email, phone, date, time, days, event_type, guests, address, message, total_price } = req.body;
 
     /* ---- Validate required fields ---- */
-    if (!name || !email || !phone || !date || !event_type || !guests || !address) {
+    if (!name || !email || !phone || !date || !time || !event_type || !guests || !address) {
       return res.status(400).json({ error: 'All required fields must be filled in.' });
     }
 
@@ -120,9 +120,12 @@ module.exports = async function handler(req, res) {
       }
 
       /* -- Create draft order -- */
+      const numDays = days || 1;
+      const totalCents = pkg.cents * numDays;
       const orderNote = [
         `Event Type: ${event_type}`,
-        `Event Date: ${date}`,
+        `Event Date: ${date}${numDays > 1 ? ` (${numDays} days)` : ''}`,
+        `Preferred Time: ${time}`,
         `Location: ${address}`,
         `Guest Count: ${pkg.name}`,
         message ? `Notes: ${message}` : ''
@@ -136,10 +139,10 @@ module.exports = async function handler(req, res) {
           customerId: squareCustomerId,
           lineItems: [
             {
-              name: `Tuk Tuk Booking — ${pkg.name}`,
+              name: `Tuk Tuk Booking — ${pkg.name}${numDays > 1 ? ` x ${numDays} days` : ''}`,
               quantity: '1',
               basePriceMoney: {
-                amount: BigInt(pkg.cents),
+                amount: BigInt(totalCents),
                 currency: 'AUD'
               }
             }
@@ -165,17 +168,21 @@ module.exports = async function handler(req, res) {
     if (hasEmail) {
       const resend = new Resend(process.env.RESEND_API_KEY);
 
-      const priceFormatted = `$${(pkg.cents / 100).toLocaleString('en-AU')}`;
+      const numDaysEmail = days || 1;
+      const totalFormatted = `$${((pkg.cents * numDaysEmail) / 100).toLocaleString('en-AU')}`;
+      const perDayFormatted = `$${(pkg.cents / 100).toLocaleString('en-AU')}`;
+      const daysLabel = numDaysEmail > 1 ? ` (${numDaysEmail} days @ ${perDayFormatted}/day)` : '';
       const emailBody = `
         <h2>New Tuk Tuk Booking Enquiry</h2>
         <table style="border-collapse:collapse;font-family:sans-serif;font-size:14px;">
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Name</td><td style="padding:8px 0;">${name}</td></tr>
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Email</td><td style="padding:8px 0;"><a href="mailto:${email}">${email}</a></td></tr>
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Phone</td><td style="padding:8px 0;"><a href="tel:${phone}">${phone}</a></td></tr>
-          <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Event Date</td><td style="padding:8px 0;">${date}</td></tr>
+          <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Event Date</td><td style="padding:8px 0;">${date}${numDaysEmail > 1 ? ` (${numDaysEmail} days)` : ''}</td></tr>
+          <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Preferred Time</td><td style="padding:8px 0;">${time}</td></tr>
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Event Type</td><td style="padding:8px 0;">${event_type}</td></tr>
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Package</td><td style="padding:8px 0;">${pkg.name}</td></tr>
-          <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Price</td><td style="padding:8px 0;">${priceFormatted}</td></tr>
+          <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Total</td><td style="padding:8px 0;">${totalFormatted}${daysLabel}</td></tr>
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Location</td><td style="padding:8px 0;">${address}</td></tr>
           ${message ? `<tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Message</td><td style="padding:8px 0;">${message}</td></tr>` : ''}
         </table>

@@ -1,6 +1,6 @@
 /* ============================================================
    BAD NEIGHBOUR — tuktuk.js
-   Booking form: custom calendar, location validation, pricing
+   Booking form: date range calendar, time, location, pricing
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!form) return;
 
   /* ============================================================
-     CUSTOM CALENDAR
+     CUSTOM CALENDAR — date range support
+     Click once = single date, click a second date = range
      ============================================================ */
   const cal       = document.getElementById('tuktuk-cal');
   const calTitle  = document.getElementById('cal-title');
@@ -28,13 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const calDaysH  = document.getElementById('cal-days-header');
   const calPrev   = document.getElementById('cal-prev');
   const calNext   = document.getElementById('cal-next');
+  const calDone   = document.getElementById('cal-done');
 
   const today     = new Date();
   today.setHours(0, 0, 0, 0);
 
   let viewYear    = today.getFullYear();
   let viewMonth   = today.getMonth();
-  let selectedDate = null;
+  let startDate   = null;  // first click
+  let endDate     = null;  // second click (range end)
 
   const MONTHS = ['January','February','March','April','May','June',
                   'July','August','September','October','November','December'];
@@ -48,23 +51,57 @@ document.addEventListener('DOMContentLoaded', () => {
     calDaysH.appendChild(el);
   });
 
+  function formatDisplay(date) {
+    const dayName = date.toLocaleDateString('en-AU', { weekday: 'short' });
+    const d = date.getDate();
+    const monthName = date.toLocaleDateString('en-AU', { month: 'short' });
+    const yr = date.getFullYear();
+    return `${dayName} ${d} ${monthName} ${yr}`;
+  }
+
+  function toIso(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
+  function isSameDay(a, b) {
+    return a && b && a.getTime() === b.getTime();
+  }
+
+  function isInRange(date) {
+    if (!startDate || !endDate) return false;
+    return date >= startDate && date <= endDate;
+  }
+
+  function updateDateField() {
+    if (startDate && endDate && !isSameDay(startDate, endDate)) {
+      dateIn.value = `${formatDisplay(startDate)} — ${formatDisplay(endDate)}`;
+      dateIso.value = `${toIso(startDate)} to ${toIso(endDate)}`;
+    } else if (startDate) {
+      dateIn.value = formatDisplay(startDate);
+      dateIso.value = toIso(startDate);
+    } else {
+      dateIn.value = '';
+      dateIso.value = '';
+    }
+  }
+
   function renderCalendar() {
     calGrid.innerHTML = '';
     calTitle.textContent = `${MONTHS[viewMonth]} ${viewYear}`;
 
-    // First day of month (adjust so Monday = 0)
     const firstDay = new Date(viewYear, viewMonth, 1).getDay();
-    const startOffset = (firstDay + 6) % 7; // Monday-based
+    const startOffset = (firstDay + 6) % 7;
     const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
 
-    // Empty cells before first day
     for (let i = 0; i < startOffset; i++) {
       const empty = document.createElement('span');
       empty.className = 'tuktuk-cal-cell tuktuk-cal-cell--empty';
       calGrid.appendChild(empty);
     }
 
-    // Day cells
     for (let d = 1; d <= daysInMonth; d++) {
       const cell = document.createElement('button');
       cell.type = 'button';
@@ -81,44 +118,66 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Today
-      if (cellDate.getTime() === today.getTime()) {
+      if (isSameDay(cellDate, today)) {
         cell.classList.add('tuktuk-cal-cell--today');
       }
 
-      // Selected
-      if (selectedDate && cellDate.getTime() === selectedDate.getTime()) {
+      // Start date
+      if (isSameDay(cellDate, startDate)) {
         cell.classList.add('tuktuk-cal-cell--selected');
+        if (endDate && !isSameDay(startDate, endDate)) {
+          cell.classList.add('tuktuk-cal-cell--range-start');
+        }
+      }
+
+      // End date
+      if (endDate && isSameDay(cellDate, endDate) && !isSameDay(startDate, endDate)) {
+        cell.classList.add('tuktuk-cal-cell--selected');
+        cell.classList.add('tuktuk-cal-cell--range-end');
+      }
+
+      // In range (between start and end)
+      if (isInRange(cellDate) && !isSameDay(cellDate, startDate) && !isSameDay(cellDate, endDate)) {
+        cell.classList.add('tuktuk-cal-cell--in-range');
       }
 
       cell.addEventListener('click', () => {
-        selectedDate = cellDate;
-
-        // Format display: "Sat 5 Apr 2026"
-        const dayName = cellDate.toLocaleDateString('en-AU', { weekday: 'short' });
-        const monthName = cellDate.toLocaleDateString('en-AU', { month: 'short' });
-        dateIn.value = `${dayName} ${d} ${monthName} ${viewYear}`;
-
-        // ISO format for the API
-        const iso = `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        dateIso.value = iso;
-
-        cal.classList.remove('open');
-        renderCalendar(); // re-render to show selection
+        if (!startDate || (startDate && endDate)) {
+          // First click or reset
+          startDate = cellDate;
+          endDate = null;
+        } else {
+          // Second click — set range
+          if (cellDate < startDate) {
+            endDate = startDate;
+            startDate = cellDate;
+          } else {
+            endDate = cellDate;
+          }
+        }
+        updateDateField();
+        renderCalendar();
       });
 
       calGrid.appendChild(cell);
     }
 
-    // Disable prev if current month
     calPrev.disabled = (viewYear === today.getFullYear() && viewMonth === today.getMonth());
   }
+
+  // Confirm button closes calendar
+  calDone.addEventListener('click', () => {
+    if (startDate) {
+      cal.classList.remove('open');
+    }
+  });
 
   // Toggle calendar
   dateIn.addEventListener('click', () => {
     cal.classList.toggle('open');
   });
 
-  // Close calendar when clicking outside
+  // Close when clicking outside
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.tuktuk-date-wrap')) {
       cal.classList.remove('open');
@@ -140,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCalendar();
 
   /* ============================================================
-     BLOCKED LOCATIONS — Adelaide Hills & regional
+     BLOCKED LOCATIONS
      ============================================================ */
   const blockedSuburbs = [
     'adelaide hills', 'mount lofty', 'stirling', 'crafers', 'bridgewater',
@@ -163,21 +222,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ============================================================
-     PACKAGE PRICING
+     PRICING
      ============================================================ */
-  const pricing = {
-    small:  1000,
-    medium: 2000,
-    large:  3000
-  };
+  const pricing = { small: 1000, medium: 2000, large: 3000 };
 
   function formatPrice(amount) {
     return '$' + amount.toLocaleString('en-AU');
   }
 
-  /* ============================================================
-     UPDATE ESTIMATE
-     ============================================================ */
   function updateEstimate() {
     const address = addressIn.value.trim();
     const guests  = guestsIn.value;
@@ -200,7 +252,14 @@ document.addEventListener('DOMContentLoaded', () => {
     hint.className = 'tuktuk-form-hint tuktuk-form-hint--ok';
 
     if (guests && pricing[guests]) {
-      priceEl.textContent = formatPrice(pricing[guests]);
+      // Multiply by number of days if multi-day
+      let days = 1;
+      if (startDate && endDate) {
+        days = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+      }
+      const total = pricing[guests] * days;
+      const dayLabel = days > 1 ? ` (${days} days)` : '';
+      priceEl.textContent = formatPrice(total) + dayLabel;
       estimate.style.display = 'block';
     }
   }
@@ -208,6 +267,13 @@ document.addEventListener('DOMContentLoaded', () => {
   addressIn.addEventListener('input', updateEstimate);
   addressIn.addEventListener('change', updateEstimate);
   guestsIn.addEventListener('change', updateEstimate);
+
+  // Also update estimate when dates change
+  const origUpdateDateField = updateDateField;
+  const dateObserver = new MutationObserver(updateEstimate);
+  dateIso.addEventListener('change', updateEstimate);
+  // Patch updateDateField to also trigger estimate
+  const _origUpdate = updateDateField;
 
   /* ============================================================
      FORM SUBMISSION
@@ -217,29 +283,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const address = addressIn.value.trim();
 
-    // Validate date
     if (!dateIso.value) {
       dateIn.focus();
       cal.classList.add('open');
       return;
     }
 
-    // Block bad locations
     if (isBlocked(address)) {
       blocked.style.display = 'block';
       blocked.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
 
+    // Calculate days and total
+    let days = 1;
+    if (startDate && endDate) {
+      days = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+    }
+    const basePrice = pricing[guestsIn.value] || 0;
+    const totalPrice = basePrice * days;
+
     const data = {
       name:       document.getElementById('book-name').value,
       email:      document.getElementById('book-email').value,
       phone:      document.getElementById('book-phone').value,
       date:       dateIso.value,
+      time:       document.getElementById('book-time').value,
+      days:       days,
       event_type: document.getElementById('book-event-type').value,
       guests:     guestsIn.value,
       address:    address,
-      message:    document.getElementById('book-message').value
+      message:    document.getElementById('book-message').value,
+      total_price: totalPrice
     };
 
     submitBtn.disabled = true;
@@ -253,10 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Something went wrong.');
-      }
+      if (!response.ok) throw new Error(result.error || 'Something went wrong.');
 
       form.style.display      = 'none';
       successEl.style.display  = 'block';
