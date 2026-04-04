@@ -1140,7 +1140,8 @@ footer {
 
 /* Hero */
 .tuktuk-hero {
-  background: var(--green);
+  background: var(--green) url('PHOTOS/tuktuk-hero.png') center / cover no-repeat;
+  position: relative;
   padding: calc(var(--nav-h) + 5rem) 2.5rem 5rem;
   text-align: center;
   min-height: 70vh;
@@ -1148,7 +1149,13 @@ footer {
   align-items: center;
   justify-content: center;
 }
-.tuktuk-hero-content { max-width: 800px; }
+.tuktuk-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(27,52,39,0.7);
+}
+.tuktuk-hero-content { max-width: 800px; position: relative; z-index: 1; }
 .tuktuk-hero-eyebrow {
   font-family: var(--font-body);
   font-weight: 700;
