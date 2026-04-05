@@ -207,15 +207,13 @@ module.exports = async function handler(req, res) {
               locationId: locationId,
               customerId: squareCustomerId,
               startAt: startAt,
-              locationType: 'CUSTOMER_LOCATION',
               appointmentSegments: [{
                 serviceVariationId: serviceVariationId,
                 teamMemberId: teamMemberId,
                 serviceVariationVersion: serviceVariationVersion,
                 durationMinutes: durationMinutes
               }],
-              customerNote: noteLines,
-              sellerNote: `Event Location: ${address}`
+              customerNote: noteLines
             },
             idempotencyKey: bookingKey
           });
