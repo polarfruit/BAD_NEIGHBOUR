@@ -1909,6 +1909,12 @@ footer {
   font-size: 1rem;
   line-height: 1.8;
   opacity: 0.7;
+  max-width: 500px;
+  margin: 0 auto 0.8rem;
+}
+.tuktuk-success a {
+  color: var(--cream);
+  text-decoration: underline;
 }
 
 @keyframes fadeIn {
