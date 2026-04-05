@@ -103,6 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
       link.classList.add('active');
     } else if (path.endsWith('tuktuk.html') && href.includes('tuktuk.html')) {
       link.classList.add('active');
+    } else if (path.endsWith('about.html') && href.includes('about.html')) {
+      link.classList.add('active');
+    } else if (path.endsWith('careers.html') && href.includes('careers.html')) {
+      link.classList.add('active');
     } else if ((path === '/' || path.endsWith('index.html') || path === '') && href.includes('index.html')) {
       link.classList.add('active');
     }
