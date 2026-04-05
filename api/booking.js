@@ -141,19 +141,23 @@ module.exports = async function handler(req, res) {
         let serviceVariationVersion = null;
         let teamMemberId = null;
 
-        // Find service — iterate through catalog pages
+        // Find appointment service — search catalog for ITEM types with APPOINTMENTS_SERVICE product type
         let cursor = undefined;
         let found = false;
         do {
-          const catalogResult = await square.catalogApi.listCatalog(cursor, 'APPOINTMENT_SERVICE');
+          const catalogResult = await square.catalogApi.listCatalog(cursor, 'ITEM');
           const objects = catalogResult.result.objects || [];
           for (const obj of objects) {
-            const variations = obj.itemData?.variations || [];
-            if (variations.length > 0) {
-              serviceVariationId = variations[0].id;
-              serviceVariationVersion = BigInt(variations[0].version);
-              found = true;
-              break;
+            const itemData = obj.itemData || {};
+            // Appointment services have productType APPOINTMENTS_SERVICE
+            if (itemData.productType === 'APPOINTMENTS_SERVICE') {
+              const variations = itemData.variations || [];
+              if (variations.length > 0) {
+                serviceVariationId = variations[0].id;
+                serviceVariationVersion = BigInt(variations[0].version);
+                found = true;
+                break;
+              }
             }
           }
           cursor = catalogResult.result.cursor;
