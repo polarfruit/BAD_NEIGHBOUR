@@ -143,11 +143,11 @@ module.exports = async function handler(req, res) {
 
         // Find appointment service and match variation to selected package
         const packageKeywords = {
-          small: 'small',
-          medium: 'medium',
-          large: 'large'
+          small: ['small'],
+          medium: ['medium'],
+          large: ['large', 'enquire', 'inquire', 'custom']
         };
-        const targetKeyword = packageKeywords[guests] || '';
+        const targetKeywords = packageKeywords[guests] || [];
         let allVariations = [];
 
         let cursor = undefined;
@@ -164,7 +164,7 @@ module.exports = async function handler(req, res) {
               // Try to match variation name to selected package
               for (const v of variations) {
                 const vName = (v.itemVariationData?.name || '').toLowerCase();
-                if (vName.includes(targetKeyword)) {
+                if (targetKeywords.some(kw => vName.includes(kw))) {
                   serviceVariationId = v.id;
                   serviceVariationVersion = BigInt(v.version);
                   found = true;
