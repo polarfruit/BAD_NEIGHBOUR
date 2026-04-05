@@ -8,7 +8,7 @@
    5. Sends email notification to Bad Neighbour
    ============================================================ */
 
-const { SquareClient, SquareEnvironment } = require('square');
+const { Client, Environment } = require('square');
 const { Resend } = require('resend');
 
 /* ----------------------------------------------------------
@@ -96,15 +96,15 @@ module.exports = async function handler(req, res) {
        SQUARE: Customer + Calendar Booking + Draft Order
        ============================================================ */
     if (hasSquare) {
-      const square = new SquareClient({
-        token: process.env.SQUARE_ACCESS_TOKEN,
-        environment: SquareEnvironment.Production
+      const square = new Client({
+        accessToken: process.env.SQUARE_ACCESS_TOKEN,
+        environment: Environment.Production
       });
 
       const locationId = process.env.SQUARE_LOCATION_ID;
 
       /* -- Find or create customer -- */
-      const searchResult = await square.customers.search({
+      const searchResult = await square.customersApi.searchCustomers({
         query: {
           filter: {
             emailAddress: { exact: email }
@@ -112,16 +112,16 @@ module.exports = async function handler(req, res) {
         }
       });
 
-      if (searchResult.customers && searchResult.customers.length > 0) {
-        squareCustomerId = searchResult.customers[0].id;
+      if (searchResult.result.customers && searchResult.result.customers.length > 0) {
+        squareCustomerId = searchResult.result.customers[0].id;
       } else {
-        const createResult = await square.customers.create({
+        const createResult = await square.customersApi.createCustomer({
           givenName: name.split(' ')[0],
           familyName: name.split(' ').slice(1).join(' ') || '',
           emailAddress: email,
           phoneNumber: phone
         });
-        squareCustomerId = createResult.customer.id;
+        squareCustomerId = createResult.result.customer.id;
       }
 
       const numDays = days || 1;
@@ -145,11 +145,8 @@ module.exports = async function handler(req, res) {
         let cursor = undefined;
         let found = false;
         do {
-          const catalogResult = await square.catalog.list({
-            types: 'APPOINTMENT_SERVICE',
-            cursor: cursor
-          });
-          const objects = catalogResult.objects || catalogResult.data || [];
+          const catalogResult = await square.catalogApi.listCatalog(cursor, 'APPOINTMENT_SERVICE');
+          const objects = catalogResult.result.objects || [];
           for (const obj of objects) {
             const variations = obj.itemData?.variations || [];
             if (variations.length > 0) {
@@ -159,16 +156,16 @@ module.exports = async function handler(req, res) {
               break;
             }
           }
-          cursor = catalogResult.cursor;
+          cursor = catalogResult.result.cursor;
         } while (cursor && !found);
 
         bookingDebug.serviceFound = !!serviceVariationId;
 
         // Find team member
-        const teamResult = await square.teamMembers.search({
+        const teamResult = await square.teamApi.searchTeamMembers({
           query: { filter: { status: 'ACTIVE', locationIds: [locationId] } }
         });
-        const members = teamResult.teamMembers || [];
+        const members = teamResult.result.teamMembers || [];
         if (members.length > 0) {
           teamMemberId = members[0].id;
         }
@@ -193,7 +190,7 @@ module.exports = async function handler(req, res) {
 
           const bookingKey = `tuktuk-bk-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
-          const bookingResult = await square.bookings.create({
+          const bookingResult = await square.bookingsApi.createBooking({
             booking: {
               locationId: locationId,
               customerId: squareCustomerId,
@@ -208,7 +205,7 @@ module.exports = async function handler(req, res) {
             idempotencyKey: bookingKey
           });
 
-          squareBookingId = bookingResult.booking?.id || null;
+          squareBookingId = bookingResult.result.booking?.id || null;
           bookingDebug.success = true;
         }
       } catch (bookingErr) {
@@ -223,7 +220,7 @@ module.exports = async function handler(req, res) {
       /* -- Draft Order (for invoicing) -- */
       const idempotencyKey = `tuktuk-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
-      const orderResult = await square.orders.create({
+      const orderResult = await square.ordersApi.createOrder({
         order: {
           locationId: locationId,
           customerId: squareCustomerId,
@@ -249,7 +246,7 @@ module.exports = async function handler(req, res) {
         idempotencyKey: idempotencyKey
       });
 
-      squareOrderId = orderResult.order.id;
+      squareOrderId = orderResult.result.order.id;
     }
 
     /* ============================================================
