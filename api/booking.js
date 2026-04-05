@@ -141,7 +141,15 @@ module.exports = async function handler(req, res) {
         let serviceVariationVersion = null;
         let teamMemberId = null;
 
-        // Find appointment service — search catalog for ITEM types with APPOINTMENTS_SERVICE product type
+        // Find appointment service and match variation to selected package
+        const packageKeywords = {
+          small: 'small',
+          medium: 'medium',
+          large: 'large'
+        };
+        const targetKeyword = packageKeywords[guests] || '';
+        let allVariations = [];
+
         let cursor = undefined;
         let found = false;
         do {
@@ -149,21 +157,36 @@ module.exports = async function handler(req, res) {
           const objects = catalogResult.result.objects || [];
           for (const obj of objects) {
             const itemData = obj.itemData || {};
-            // Appointment services have productType APPOINTMENTS_SERVICE
             if (itemData.productType === 'APPOINTMENTS_SERVICE') {
               const variations = itemData.variations || [];
-              if (variations.length > 0) {
+              allVariations = variations;
+
+              // Try to match variation name to selected package
+              for (const v of variations) {
+                const vName = (v.itemVariationData?.name || '').toLowerCase();
+                if (vName.includes(targetKeyword)) {
+                  serviceVariationId = v.id;
+                  serviceVariationVersion = BigInt(v.version);
+                  found = true;
+                  break;
+                }
+              }
+
+              // If no match, fall back to first variation
+              if (!found && variations.length > 0) {
                 serviceVariationId = variations[0].id;
                 serviceVariationVersion = BigInt(variations[0].version);
                 found = true;
-                break;
               }
+              break;
             }
           }
           cursor = catalogResult.result.cursor;
         } while (cursor && !found);
 
         bookingDebug.serviceFound = !!serviceVariationId;
+        bookingDebug.matchedPackage = guests;
+        bookingDebug.availableVariations = allVariations.map(v => v.itemVariationData?.name || v.id);
 
         // Find team member
         const teamResult = await square.teamApi.searchTeamMembers({
