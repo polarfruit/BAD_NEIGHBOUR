@@ -90,6 +90,7 @@ module.exports = async function handler(req, res) {
     let squareCustomerId = null;
     let squareOrderId = null;
     let squareBookingId = null;
+    let bookingDebug = {};
 
     /* ============================================================
        SQUARE: Customer + Calendar Booking + Draft Order
@@ -136,34 +137,59 @@ module.exports = async function handler(req, res) {
 
       /* -- Calendar Booking (Square Appointments) -- */
       try {
-        // Auto-discover the first appointment service
         let serviceVariationId = null;
         let serviceVariationVersion = null;
         let teamMemberId = null;
 
-        // Find service
-        const catalogResult = await square.catalog.list({ types: 'APPOINTMENT_SERVICE' });
-        if (catalogResult.objects && catalogResult.objects.length > 0) {
-          const service = catalogResult.objects[0];
-          if (service.itemData && service.itemData.variations && service.itemData.variations.length > 0) {
-            serviceVariationId = service.itemData.variations[0].id;
-            serviceVariationVersion = BigInt(service.itemData.variations[0].version);
+        // Find service — iterate through catalog pages
+        let cursor = undefined;
+        let found = false;
+        do {
+          const catalogResult = await square.catalog.list({
+            types: 'APPOINTMENT_SERVICE',
+            cursor: cursor
+          });
+          const objects = catalogResult.objects || catalogResult.data || [];
+          for (const obj of objects) {
+            const variations = obj.itemData?.variations || [];
+            if (variations.length > 0) {
+              serviceVariationId = variations[0].id;
+              serviceVariationVersion = BigInt(variations[0].version);
+              found = true;
+              break;
+            }
           }
-        }
+          cursor = catalogResult.cursor;
+        } while (cursor && !found);
+
+        bookingDebug.serviceFound = !!serviceVariationId;
 
         // Find team member
         const teamResult = await square.teamMembers.search({
           query: { filter: { status: 'ACTIVE', locationIds: [locationId] } }
         });
-        if (teamResult.teamMembers && teamResult.teamMembers.length > 0) {
-          teamMemberId = teamResult.teamMembers[0].id;
+        const members = teamResult.teamMembers || [];
+        if (members.length > 0) {
+          teamMemberId = members[0].id;
         }
 
-        if (serviceVariationId && teamMemberId) {
-          // Build start datetime — Adelaide is UTC+9:30 (ACST) / UTC+10:30 (ACDT)
-          // Use +09:30 as default (close enough for booking purposes)
+        bookingDebug.teamMemberFound = !!teamMemberId;
+
+        if (!serviceVariationId || !teamMemberId) {
+          bookingDebug.skipped = true;
+          bookingDebug.reason = !serviceVariationId ? 'No appointment service found in catalog' : 'No active team member found';
+        } else {
+          // Build start datetime in RFC 3339 (Adelaide UTC+9:30)
           const eventDateStr = date.includes(' to ') ? date.split(' to ')[0] : date;
-          const startAt = `${eventDateStr}T${time_start.padStart(5, '0')}:00+09:30`;
+          // Ensure time is HH:MM format
+          const timeParts = time_start.match(/(\d{1,2}):(\d{2})/);
+          const startHour = timeParts ? timeParts[1].padStart(2, '0') : '09';
+          const startMin = timeParts ? timeParts[2] : '00';
+          const startAt = `${eventDateStr}T${startHour}:${startMin}:00+09:30`;
+
+          bookingDebug.startAt = startAt;
+          bookingDebug.serviceVariationId = serviceVariationId;
+          bookingDebug.teamMemberId = teamMemberId;
 
           const bookingKey = `tuktuk-bk-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
@@ -182,11 +208,16 @@ module.exports = async function handler(req, res) {
             idempotencyKey: bookingKey
           });
 
-          squareBookingId = bookingResult.booking.id;
+          squareBookingId = bookingResult.booking?.id || null;
+          bookingDebug.success = true;
         }
       } catch (bookingErr) {
-        // Calendar booking failed — continue with order creation
-        console.error('Calendar booking failed (continuing with order):', bookingErr.message || bookingErr);
+        bookingDebug.error = bookingErr.message || String(bookingErr);
+        // Try to get Square API error details
+        if (bookingErr.errors) {
+          bookingDebug.squareErrors = bookingErr.errors;
+        }
+        console.error('Calendar booking failed:', JSON.stringify(bookingDebug));
       }
 
       /* -- Draft Order (for invoicing) -- */
@@ -262,7 +293,9 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({
       success: true,
       message: 'Booking enquiry received. We\'ll review and get back to you within 24 hours.',
-      squareOrderId: squareOrderId || null
+      squareOrderId: squareOrderId || null,
+      squareBookingId: squareBookingId || null,
+      _debug: bookingDebug || null
     });
 
   } catch (err) {
