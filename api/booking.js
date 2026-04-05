@@ -135,11 +135,94 @@ module.exports = async function handler(req, res) {
         message ? `Notes: ${message}` : ''
       ].filter(Boolean).join('\n');
 
-      /* -- Calendar booking skipped intentionally --
-         Enquiries create a draft order only. You review the order
-         in Square Dashboard, then manually add to the calendar
-         once approved. This gives you full control over what
-         gets booked. */
+      /* -- Calendar Booking (Square Appointments) -- */
+      try {
+        let serviceVariationId = null;
+        let serviceVariationVersion = null;
+        let teamMemberId = null;
+
+        // Find appointment service and match variation to selected package
+        const packageKeywords = {
+          small: ['small'],
+          medium: ['medium'],
+          large: ['large', 'enquire', 'inquire', 'custom']
+        };
+        const targetKeywords = packageKeywords[guests] || [];
+
+        let cursor = undefined;
+        let found = false;
+        do {
+          const catalogResult = await square.catalogApi.listCatalog(cursor, 'ITEM');
+          const objects = catalogResult.result.objects || [];
+          for (const obj of objects) {
+            const itemData = obj.itemData || {};
+            if (itemData.productType === 'APPOINTMENTS_SERVICE') {
+              const variations = itemData.variations || [];
+              for (const v of variations) {
+                const vName = (v.itemVariationData?.name || '').toLowerCase();
+                if (targetKeywords.some(kw => vName.includes(kw))) {
+                  serviceVariationId = v.id;
+                  serviceVariationVersion = BigInt(v.version);
+                  found = true;
+                  break;
+                }
+              }
+              if (!found && variations.length > 0) {
+                serviceVariationId = variations[0].id;
+                serviceVariationVersion = BigInt(variations[0].version);
+                found = true;
+              }
+              break;
+            }
+          }
+          cursor = catalogResult.result.cursor;
+        } while (cursor && !found);
+
+        // Find team member
+        const teamResult = await square.teamApi.searchTeamMembers({
+          query: { filter: { status: 'ACTIVE', locationIds: [locationId] } }
+        });
+        const members = teamResult.result.teamMembers || [];
+        if (members.length > 0) {
+          teamMemberId = members[0].id;
+        }
+
+        if (serviceVariationId && teamMemberId) {
+          const eventDateStr = date.includes(' to ') ? date.split(' to ')[0] : date;
+          const startParts = time_start.match(/(\d{1,2}):(\d{2})/);
+          const startHour = startParts ? parseInt(startParts[1]) : 9;
+          const startMin = startParts ? parseInt(startParts[2]) : 0;
+          const startAt = `${eventDateStr}T${String(startHour).padStart(2, '0')}:${String(startMin).padStart(2, '0')}:00+09:30`;
+
+          const endParts = time_end.match(/(\d{1,2}):(\d{2})/);
+          const endHour = endParts ? parseInt(endParts[1]) : 17;
+          const endMin = endParts ? parseInt(endParts[2]) : 0;
+          let durationMinutes = (endHour * 60 + endMin) - (startHour * 60 + startMin);
+          if (durationMinutes <= 0) durationMinutes = 60;
+
+          const bookingKey = `tuktuk-bk-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
+          const bookingResult = await square.bookingsApi.createBooking({
+            booking: {
+              locationId: locationId,
+              customerId: squareCustomerId,
+              startAt: startAt,
+              appointmentSegments: [{
+                serviceVariationId: serviceVariationId,
+                teamMemberId: teamMemberId,
+                serviceVariationVersion: serviceVariationVersion,
+                durationMinutes: durationMinutes
+              }],
+              customerNote: noteLines
+            },
+            idempotencyKey: bookingKey
+          });
+
+          squareBookingId = bookingResult.result.booking?.id || null;
+        }
+      } catch (bookingErr) {
+        console.error('Calendar booking failed:', bookingErr.message || String(bookingErr));
+      }
 
       /* -- Draft Order (for invoicing) -- */
       const idempotencyKey = `tuktuk-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
