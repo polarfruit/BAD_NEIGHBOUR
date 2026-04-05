@@ -182,13 +182,21 @@ module.exports = async function handler(req, res) {
         } else {
           // Build start datetime in RFC 3339 (Adelaide UTC+9:30)
           const eventDateStr = date.includes(' to ') ? date.split(' to ')[0] : date;
-          // Ensure time is HH:MM format
-          const timeParts = time_start.match(/(\d{1,2}):(\d{2})/);
-          const startHour = timeParts ? timeParts[1].padStart(2, '0') : '09';
-          const startMin = timeParts ? timeParts[2] : '00';
-          const startAt = `${eventDateStr}T${startHour}:${startMin}:00+09:30`;
+          // Parse start time
+          const startParts = time_start.match(/(\d{1,2}):(\d{2})/);
+          const startHour = startParts ? parseInt(startParts[1]) : 9;
+          const startMin = startParts ? parseInt(startParts[2]) : 0;
+          const startAt = `${eventDateStr}T${String(startHour).padStart(2, '0')}:${String(startMin).padStart(2, '0')}:00+09:30`;
+
+          // Calculate duration from start to end time
+          const endParts = time_end.match(/(\d{1,2}):(\d{2})/);
+          const endHour = endParts ? parseInt(endParts[1]) : 17;
+          const endMin = endParts ? parseInt(endParts[2]) : 0;
+          let durationMinutes = (endHour * 60 + endMin) - (startHour * 60 + startMin);
+          if (durationMinutes <= 0) durationMinutes = 60; // fallback 1 hour
 
           bookingDebug.startAt = startAt;
+          bookingDebug.durationMinutes = durationMinutes;
           bookingDebug.serviceVariationId = serviceVariationId;
           bookingDebug.teamMemberId = teamMemberId;
 
@@ -202,7 +210,8 @@ module.exports = async function handler(req, res) {
               appointmentSegments: [{
                 serviceVariationId: serviceVariationId,
                 teamMemberId: teamMemberId,
-                serviceVariationVersion: serviceVariationVersion
+                serviceVariationVersion: serviceVariationVersion,
+                durationMinutes: durationMinutes
               }],
               customerNote: noteLines
             },
