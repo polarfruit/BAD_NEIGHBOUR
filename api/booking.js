@@ -300,8 +300,10 @@ module.exports = async function handler(req, res) {
 
   } catch (err) {
     console.error('Booking error:', err);
+    const errDetail = err.errors ? err.errors.map(e => e.detail || e.code).join('; ') : (err.message || String(err));
     return res.status(500).json({
-      error: 'Something went wrong. Please try again or contact us directly.'
+      error: 'Something went wrong. Please try again or contact us directly.',
+      _debug: { message: errDetail, type: err.constructor?.name }
     });
   }
 };
