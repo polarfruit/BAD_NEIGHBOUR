@@ -3,8 +3,9 @@
    Handles tuk tuk booking form submissions:
    1. Validates input & location
    2. Creates/finds Square customer
-   3. Creates Square draft order
-   4. Sends email notification to Bad Neighbour
+   3. Creates Square calendar booking (Appointments API)
+   4. Creates Square draft order (for invoicing)
+   5. Sends email notification to Bad Neighbour
    ============================================================ */
 
 const { SquareClient, SquareEnvironment } = require('square');
@@ -88,15 +89,18 @@ module.exports = async function handler(req, res) {
 
     let squareCustomerId = null;
     let squareOrderId = null;
+    let squareBookingId = null;
 
     /* ============================================================
-       SQUARE: Create customer + draft order
+       SQUARE: Customer + Calendar Booking + Draft Order
        ============================================================ */
     if (hasSquare) {
       const square = new SquareClient({
         token: process.env.SQUARE_ACCESS_TOKEN,
         environment: SquareEnvironment.Production
       });
+
+      const locationId = process.env.SQUARE_LOCATION_ID;
 
       /* -- Find or create customer -- */
       const searchResult = await square.customers.search({
@@ -119,10 +123,9 @@ module.exports = async function handler(req, res) {
         squareCustomerId = createResult.customer.id;
       }
 
-      /* -- Create draft order -- */
       const numDays = days || 1;
       const totalCents = pkg.cents * numDays;
-      const orderNote = [
+      const noteLines = [
         `Event Type: ${event_type}`,
         `Event Date: ${date}${numDays > 1 ? ` (${numDays} days)` : ''}`,
         `Time: ${time_start} — ${time_end}`,
@@ -131,11 +134,67 @@ module.exports = async function handler(req, res) {
         message ? `Notes: ${message}` : ''
       ].filter(Boolean).join('\n');
 
+      /* -- Calendar Booking (Square Appointments) -- */
+      try {
+        // Auto-discover the first appointment service
+        let serviceVariationId = null;
+        let serviceVariationVersion = null;
+        let teamMemberId = null;
+
+        // Find service
+        const catalogResult = await square.catalog.list({ types: 'APPOINTMENT_SERVICE' });
+        if (catalogResult.objects && catalogResult.objects.length > 0) {
+          const service = catalogResult.objects[0];
+          if (service.itemData && service.itemData.variations && service.itemData.variations.length > 0) {
+            serviceVariationId = service.itemData.variations[0].id;
+            serviceVariationVersion = BigInt(service.itemData.variations[0].version);
+          }
+        }
+
+        // Find team member
+        const teamResult = await square.teamMembers.search({
+          query: { filter: { status: 'ACTIVE', locationIds: [locationId] } }
+        });
+        if (teamResult.teamMembers && teamResult.teamMembers.length > 0) {
+          teamMemberId = teamResult.teamMembers[0].id;
+        }
+
+        if (serviceVariationId && teamMemberId) {
+          // Build start datetime — Adelaide is UTC+9:30 (ACST) / UTC+10:30 (ACDT)
+          // Use +09:30 as default (close enough for booking purposes)
+          const eventDateStr = date.includes(' to ') ? date.split(' to ')[0] : date;
+          const startAt = `${eventDateStr}T${time_start.padStart(5, '0')}:00+09:30`;
+
+          const bookingKey = `tuktuk-bk-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
+          const bookingResult = await square.bookings.create({
+            booking: {
+              locationId: locationId,
+              customerId: squareCustomerId,
+              startAt: startAt,
+              appointmentSegments: [{
+                serviceVariationId: serviceVariationId,
+                teamMemberId: teamMemberId,
+                serviceVariationVersion: serviceVariationVersion
+              }],
+              customerNote: noteLines
+            },
+            idempotencyKey: bookingKey
+          });
+
+          squareBookingId = bookingResult.booking.id;
+        }
+      } catch (bookingErr) {
+        // Calendar booking failed — continue with order creation
+        console.error('Calendar booking failed (continuing with order):', bookingErr.message || bookingErr);
+      }
+
+      /* -- Draft Order (for invoicing) -- */
       const idempotencyKey = `tuktuk-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
       const orderResult = await square.orders.create({
         order: {
-          locationId: process.env.SQUARE_LOCATION_ID,
+          locationId: locationId,
           customerId: squareCustomerId,
           lineItems: [
             {
@@ -153,7 +212,7 @@ module.exports = async function handler(req, res) {
             event_location: address,
             customer_phone: phone
           },
-          note: orderNote,
+          note: noteLines,
           state: 'DRAFT'
         },
         idempotencyKey: idempotencyKey
@@ -186,8 +245,9 @@ module.exports = async function handler(req, res) {
           <tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Location</td><td style="padding:8px 0;">${address}</td></tr>
           ${message ? `<tr><td style="padding:8px 16px 8px 0;font-weight:bold;">Message</td><td style="padding:8px 0;">${message}</td></tr>` : ''}
         </table>
-        ${squareOrderId ? `<p style="margin-top:20px;font-size:13px;color:#666;">Square Draft Order ID: ${squareOrderId}</p>` : ''}
-        <p style="margin-top:20px;font-size:13px;color:#666;">Open your Square Dashboard to review and send the invoice.</p>
+        ${squareBookingId ? `<p style="margin-top:20px;font-size:13px;color:#666;">Calendar Booking created — check your Square Appointments to accept/decline.</p>` : ''}
+        ${squareOrderId ? `<p style="margin-top:10px;font-size:13px;color:#666;">Square Draft Order ID: ${squareOrderId}</p>` : ''}
+        <p style="margin-top:10px;font-size:13px;color:#666;">Open your Square Dashboard to review and send the invoice.</p>
       `;
 
       await resend.emails.send({
