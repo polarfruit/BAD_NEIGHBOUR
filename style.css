@@ -67,7 +67,6 @@ a { text-decoration: none; color: inherit; }
 .nav-logo-img {
   height: 40px;
   width: auto;
-  filter: brightness(0) invert(1);
 }
 
 .nav-links {
@@ -253,7 +252,6 @@ a { text-decoration: none; color: inherit; }
 .hero-logo-img {
   width: clamp(280px, 50vw, 550px);
   height: auto;
-  filter: brightness(0) invert(1);
 }
 
 .hero-tagline {
@@ -763,7 +761,6 @@ footer {
 .footer-logo-img {
   height: 50px;
   width: auto;
-  filter: brightness(0) invert(1);
 }
 .footer-ig {
   color: var(--cream);
