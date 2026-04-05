@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ============================================================
      PRICING
      ============================================================ */
-  const pricing = { small: 1000, medium: 2000, large: 3000 };
+  const pricing = { small: 800, medium: 1500 };
 
   function formatPrice(amount) {
     return '$' + amount.toLocaleString('en-AU');
@@ -193,7 +193,10 @@ document.addEventListener('DOMContentLoaded', () => {
     hint.textContent = 'This location is within our service area.';
     hint.className = 'tuktuk-form-hint tuktuk-form-hint--ok';
 
-    if (guests && pricing[guests]) {
+    if (guests === 'large') {
+      priceEl.textContent = 'Custom quote — we\'ll be in touch';
+      estimate.style.display = 'block';
+    } else if (guests && pricing[guests]) {
       let days = 1;
       if (startDate && endDate) {
         days = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;

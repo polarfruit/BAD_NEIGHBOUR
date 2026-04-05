@@ -36,9 +36,9 @@ function isBlocked(location) {
    PACKAGE CONFIG
 ---------------------------------------------------------- */
 const PACKAGES = {
-  small:  { name: 'Small Package — Up to 100 guests', cents: 100000 },
-  medium: { name: 'Medium Package — 100 to 250 guests', cents: 200000 },
-  large:  { name: 'Large Package — 250+ guests', cents: 300000 }
+  small:  { name: 'Small Package — Up to 80 guests', cents: 80000 },
+  medium: { name: 'Medium Package — Up to 150 guests', cents: 150000 },
+  large:  { name: 'Large Event — 150+ guests (custom quote)', cents: 0 }
 };
 
 /* ----------------------------------------------------------
