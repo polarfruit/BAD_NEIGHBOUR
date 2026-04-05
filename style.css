@@ -1895,25 +1895,45 @@ footer {
 /* Success */
 .tuktuk-success {
   text-align: center;
-  padding: 3rem 0;
+  padding: 3.5rem 2.5rem;
+  background: var(--cream);
+  border-radius: 12px;
+  margin: 2rem auto;
+  max-width: 560px;
   animation: fadeIn 400ms ease;
+}
+.tuktuk-success::before {
+  content: '\2713';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--white);
+  font-size: 2rem;
+  font-weight: 700;
 }
 .tuktuk-success h3 {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
   text-transform: uppercase;
-  color: var(--white);
+  color: var(--green);
   margin-bottom: 1rem;
 }
 .tuktuk-success p {
   font-size: 1rem;
   line-height: 1.8;
-  opacity: 0.7;
-  max-width: 500px;
+  color: var(--green);
+  opacity: 0.8;
+  max-width: 420px;
   margin: 0 auto 0.8rem;
 }
 .tuktuk-success a {
-  color: var(--cream);
+  color: var(--green);
+  font-weight: 600;
   text-decoration: underline;
 }
 
