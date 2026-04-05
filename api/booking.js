@@ -230,6 +230,7 @@ module.exports = async function handler(req, res) {
               locationId: locationId,
               customerId: squareCustomerId,
               startAt: startAt,
+              status: 'PENDING',
               appointmentSegments: [{
                 serviceVariationId: serviceVariationId,
                 teamMemberId: teamMemberId,
