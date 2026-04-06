@@ -477,8 +477,8 @@ a { text-decoration: none; color: inherit; }
 .ig-feed-scroll::-webkit-scrollbar { display: none; }
 
 .ig-card {
-  flex: 0 0 280px;
-  aspect-ratio: 1;
+  flex: 0 0 220px;
+  aspect-ratio: 4/5;
   border-radius: 8px;
   overflow: hidden;
   position: relative;
@@ -520,7 +520,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 @media (max-width: 600px) {
-  .ig-card { flex: 0 0 220px; }
+  .ig-card { flex: 0 0 180px; }
   .ig-feed { padding: 3rem 0 2rem; }
 }
 
