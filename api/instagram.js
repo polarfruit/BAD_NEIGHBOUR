@@ -27,8 +27,9 @@ module.exports = async function handler(req, res) {
       return res.status(200).json(cache.data);
     }
 
+    const igUserId = process.env.INSTAGRAM_USER_ID || '17841477444146061';
     const fields = 'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp';
-    const url = `https://graph.instagram.com/me/media?fields=${fields}&limit=12&access_token=${token}`;
+    const url = `https://graph.facebook.com/v19.0/${igUserId}/media?fields=${fields}&limit=12&access_token=${token}`;
     const response = await fetch(url);
 
     if (!response.ok) {
