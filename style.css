@@ -1618,7 +1618,7 @@ footer {
 
 /* Booking Form */
 .tuktuk-book { background: var(--green); color: var(--cream); }
-.tuktuk-book .tuktuk-h2 { color: var(--white); }
+.tuktuk-book .tuktuk-h2 { color: var(--white); white-space: nowrap; }
 .tuktuk-book .section-eyebrow { color: var(--mid-green); }
 
 .tuktuk-form {
