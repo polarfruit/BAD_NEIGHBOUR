@@ -40,12 +40,13 @@ module.exports = async function handler(req, res) {
 
     const json = await response.json();
 
-    // Filter to images and carousels (skip standalone videos)
+    // Include images, carousels, and videos/reels
     const posts = (json.data || [])
-      .filter(p => p.media_type === 'IMAGE' || p.media_type === 'CAROUSEL_ALBUM')
       .map(p => ({
         id: p.id,
-        image: p.media_url,
+        image: p.thumbnail_url || p.media_url,
+        video: p.media_type === 'VIDEO' ? p.media_url : null,
+        type: p.media_type,
         caption: p.caption || '',
         url: p.permalink,
         date: p.timestamp

@@ -225,11 +225,24 @@ document.addEventListener('DOMContentLoaded', () => {
           card.rel = 'noopener';
           card.className = 'ig-card';
 
-          const img = document.createElement('img');
-          img.src = post.image;
-          img.alt = post.caption.slice(0, 80) || 'Instagram post';
-          img.loading = 'lazy';
-          card.appendChild(img);
+          if (post.video) {
+            const video = document.createElement('video');
+            video.src = post.video;
+            video.poster = post.image;
+            video.muted = true;
+            video.loop = true;
+            video.playsInline = true;
+            video.loading = 'lazy';
+            card.addEventListener('mouseenter', () => video.play());
+            card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+            card.appendChild(video);
+          } else {
+            const img = document.createElement('img');
+            img.src = post.image;
+            img.alt = post.caption.slice(0, 80) || 'Instagram post';
+            img.loading = 'lazy';
+            card.appendChild(img);
+          }
 
           const overlay = document.createElement('div');
           overlay.className = 'ig-card-overlay';
