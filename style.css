@@ -626,6 +626,7 @@ a { text-decoration: none; color: inherit; }
 
 @media (max-width: 768px) {
   .abt-hero { min-height: 60vh; padding: calc(var(--nav-h) + 3rem) 1.25rem 3rem; }
+  .abt-hero h1 { font-size: clamp(3.5rem, 14vw, 6rem); }
   .abt-story .abt-section-inner,
   .abt-team-inner {
     grid-template-columns: 1fr;
@@ -633,6 +634,11 @@ a { text-decoration: none; color: inherit; }
   }
   .abt-team-photo { order: -1; }
   .abt-section { padding: 3rem 1.25rem; }
+  .abt-h2 { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .abt-findus-btns { flex-direction: column; align-items: center; }
+  .abt-findus-btns .btn { width: 100%; text-align: center; }
+  .abt-story-photo img,
+  .abt-team-photo img { height: 240px; }
 }
 
 /* ============================================================
@@ -747,8 +753,12 @@ a { text-decoration: none; color: inherit; }
 
 @media (max-width: 768px) {
   .careers-hero { min-height: 60vh; padding: calc(var(--nav-h) + 3rem) 1.25rem 3rem; }
+  .careers-hero h1 { font-size: clamp(3.5rem, 14vw, 6rem); }
   .careers-grid { grid-template-columns: 1fr; }
   .careers-section { padding: 3rem 1.25rem; }
+  .careers-h2 { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .careers-card { padding: 1.5rem; }
+  .careers-apply-inner .btn { width: 100%; text-align: center; display: block; }
 }
 
 /* ============================================================
@@ -1360,6 +1370,13 @@ footer {
 
 @media (max-width: 480px) {
   .hero-cta { flex-direction: column; align-items: center; }
+  .hero-cta .btn { width: 100%; text-align: center; }
+  footer { padding: 2rem 1.25rem; }
+  .footer-logo { font-size: 1.1rem; }
+  .footer-meta p { font-size: 0.7rem; line-height: 1.6; }
+  .nav-logo-img { height: 18px; }
+  .ig-feed { padding: 2.5rem 0 1.5rem; }
+  .ig-feed-header h2 { font-size: 1.4rem; }
 }
 
 /* ============================================================
@@ -1936,6 +1953,46 @@ footer {
   color: var(--green);
   font-weight: 600;
   text-decoration: underline;
+}
+
+/* Tuk Tuk Mobile */
+@media (max-width: 768px) {
+  .tuktuk-hero {
+    min-height: 60vh;
+    padding: calc(var(--nav-h) + 3rem) 1.25rem 3rem;
+  }
+  .tuktuk-hero h1 { font-size: clamp(3.5rem, 14vw, 6rem); }
+  .tuktuk-section { padding: 3rem 1.25rem; }
+  .tuktuk-h2 { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .tuktuk-book .tuktuk-h2 { white-space: normal; }
+  .tuktuk-what .tuktuk-section-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .tuktuk-event-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .tuktuk-package-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .tuktuk-steps {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .tuktuk-form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .tuktuk-cal {
+    width: calc(100vw - 3rem);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .tuktuk-estimate-inner { padding: 1.25rem; }
+  .tuktuk-success { padding: 2.5rem 1.5rem; margin: 1.5rem auto; }
+  .tuktuk-submit { padding: 1.1rem 1.5rem; font-size: 0.9rem; }
 }
 
 @keyframes fadeIn {
