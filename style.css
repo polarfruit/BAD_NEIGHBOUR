@@ -444,8 +444,7 @@ a { text-decoration: none; color: inherit; }
   color: var(--cream);
   opacity: 0.8;
 }
-.about-text .btn,
-.about-directions-btn {
+.about-info-col .btn {
   margin-top: 1.5rem;
 }
 .about-venue-photo {
@@ -1372,9 +1371,8 @@ footer {
   }
   .about-info-cols h3 { font-size: 0.6rem; }
   .about-info-cols p { font-size: 0.85rem; line-height: 1.8; }
-  .about-text .btn,
-  .about-directions-btn {
-    margin-top: 1.25rem;
+  .about-info-col .btn {
+    margin-top: 1rem;
   }
   .about-venue-photo img { height: 220px; }
 
