@@ -427,7 +427,6 @@ a { text-decoration: none; color: inherit; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2.5rem;
-  margin-bottom: 2.5rem;
 }
 .about-info-cols h3 {
   font-family: var(--font-body);
@@ -461,13 +460,21 @@ a { text-decoration: none; color: inherit; }
 .about-info-col .btn {
   margin-top: 1.5rem;
 }
+
+/* Desktop: Location/Hours left, venue photo right */
+.about-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
 .about-venue-photo {
-  margin-top: 2.5rem;
   overflow: hidden;
+  height: 100%;
 }
 .about-venue-photo img {
   width: 100%;
-  height: 340px;
+  height: 100%;
   object-fit: cover;
   object-position: center 30%;
   image-rendering: auto;
@@ -1381,6 +1388,9 @@ footer {
   .about--heading { padding-bottom: 0; }
   .about--heading .about-text p:last-of-type { margin-bottom: 0; }
   .about--info { padding-top: 0 !important; }
+  .about-info {
+    grid-template-columns: 1fr;
+  }
   .about-info-cols {
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
