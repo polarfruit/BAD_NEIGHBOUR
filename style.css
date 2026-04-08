@@ -444,15 +444,6 @@ a { text-decoration: none; color: inherit; }
   color: var(--cream);
   opacity: 0.8;
 }
-.about--heading {
-  padding-bottom: 0;
-}
-.about--heading .about-text p:last-of-type {
-  margin-bottom: 0;
-}
-.about--info {
-  padding-top: 0 !important;
-}
 .about-info-col .btn {
   margin-top: 1.5rem;
 }
@@ -1373,6 +1364,9 @@ footer {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
+  .about--heading { padding-bottom: 0; }
+  .about--heading .about-text p:last-of-type { margin-bottom: 0; }
+  .about--info { padding-top: 0 !important; }
   .about-info-cols {
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
