@@ -444,6 +444,20 @@ a { text-decoration: none; color: inherit; }
   color: var(--cream);
   opacity: 0.8;
 }
+/* Heading + Info sections use full width (single child, no 2-col grid) */
+.about--heading .about-inner,
+.about--info .about-inner {
+  grid-template-columns: 1fr;
+}
+.about--heading .about-text {
+  max-width: 600px;
+}
+.about--heading {
+  padding-bottom: 2rem;
+}
+.about--info {
+  padding-top: 2rem;
+}
 .about-info-col .btn {
   margin-top: 1.5rem;
 }
