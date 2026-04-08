@@ -1419,9 +1419,9 @@ footer {
   .sando-header { justify-content: center; gap: 0.5rem; }
 
   /* Mobile-only sando photo crops */
-  .sando-card:nth-child(1) .sando-thumb { object-position: center 82% !important; }
-  .sando-card:nth-child(3) .sando-thumb { object-position: center 40% !important; }
-  .sando-card:nth-child(5) .sando-thumb { object-position: center 20% !important; }
+  .sando-card:nth-child(1) .sando-thumb { object-position: center 50% !important; }
+  .sando-card:nth-child(3) .sando-thumb { object-position: center 78% !important; }
+  .sando-card:nth-child(5) .sando-thumb { object-position: center 65% !important; }
 
   /* Shared section eyebrow consistency */
   .section-eyebrow { font-size: 0.6rem; letter-spacing: 0.2em; }
