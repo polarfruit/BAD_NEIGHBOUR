@@ -423,6 +423,37 @@ a { text-decoration: none; color: inherit; }
   opacity: 0.8;
   margin-bottom: 2.5rem;
 }
+.about-info-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+.about-info-cols h3 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--mid-green);
+  margin-bottom: 0.75rem;
+}
+.about-info-cols p {
+  font-size: 0.9rem;
+  line-height: 1.9;
+  color: var(--cream);
+  opacity: 0.8;
+}
+.about-info-btns {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0;
+}
+.about-info-btns .btn {
+  font-size: 0.75rem;
+  padding: 0.9rem 1.8rem;
+  letter-spacing: 0.12em;
+}
 .about-venue-photo {
   margin-top: 2.5rem;
   overflow: hidden;
@@ -1336,20 +1367,28 @@ footer {
   .about-text h2 { font-size: clamp(2.5rem, 12vw, 3.5rem); margin-bottom: 1.5rem; }
   .about-h2-line { display: inline; }
   .about-text p { font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.6rem; }
-  .about-text .btn,
-  .about-info .btn {
-    display: block;
-    width: 100%;
-    text-align: center;
-    padding: 1rem 1.5rem;
-    font-size: 0.8rem;
-  }
   .about-inner {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
-  .about-info h3 { font-size: 0.6rem; letter-spacing: 0.2em; margin-bottom: 0.5rem; }
-  .about-info p { font-size: 0.9rem; line-height: 1.8; margin-bottom: 2rem; }
+  .about-info-cols {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .about-info-cols h3 { font-size: 0.6rem; }
+  .about-info-cols p { font-size: 0.85rem; line-height: 1.8; }
+  .about-info-btns {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .about-info-btns .btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 1rem 1.5rem;
+    font-size: 0.75rem;
+  }
   .about-venue-photo img { height: 220px; }
 
   /* Footer */
@@ -1391,8 +1430,9 @@ footer {
   .about { padding: 3rem 1rem; }
   .about-text h2 { font-size: clamp(2.2rem, 11vw, 3rem); }
   .about-text p { font-size: 0.9rem; }
-  .about-info h3 { font-size: 0.6rem; }
-  .about-info p { font-size: 0.85rem; line-height: 1.7; }
+  .about-info-cols { gap: 1rem; }
+  .about-info-cols h3 { font-size: 0.55rem; }
+  .about-info-cols p { font-size: 0.8rem; line-height: 1.7; }
   .about-venue-photo img { height: 200px; }
 
   /* IG Feed — small phone */
