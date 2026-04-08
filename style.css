@@ -1530,15 +1530,15 @@ footer {
   line-height: 1.03;
   letter-spacing: -0.02em;
   margin-bottom: 3rem;
+  white-space: nowrap;
 }
 
 /* What We Bring */
 .tuktuk-what { background: var(--cream); color: var(--green); }
 .tuktuk-what .tuktuk-section-inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: start;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
 }
 .tuktuk-what-text p {
   font-size: 1rem;
@@ -2052,8 +2052,7 @@ footer {
   }
   .tuktuk-hero h1 { font-size: clamp(3.5rem, 14vw, 6rem); }
   .tuktuk-section { padding: 3rem 1.25rem; }
-  .tuktuk-h2 { font-size: clamp(2.5rem, 10vw, 4rem); }
-  .tuktuk-book .tuktuk-h2 { white-space: normal; }
+  .tuktuk-h2 { font-size: clamp(2.5rem, 10vw, 4rem); white-space: normal; }
   .tuktuk-what .tuktuk-section-inner {
     grid-template-columns: 1fr;
     gap: 2rem;
