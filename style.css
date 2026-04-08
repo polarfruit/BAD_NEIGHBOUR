@@ -1318,6 +1318,18 @@ footer {
 
 .strip-photo { cursor: zoom-in; }
 
+@media (max-width: 768px) {
+  /* #1 All the sandos — show lower portion */
+  .photo-carousel-track .strip-photo:nth-child(1),
+  .photo-carousel-track .strip-photo:nth-child(13) { object-position: center 60%; }
+  /* #3 Iced drink — show higher portion */
+  .photo-carousel-track .strip-photo:nth-child(3),
+  .photo-carousel-track .strip-photo:nth-child(15) { object-position: center 35%; }
+  /* #5 Cheese pull / smoke — show higher portion */
+  .photo-carousel-track .strip-photo:nth-child(5),
+  .photo-carousel-track .strip-photo:nth-child(17) { object-position: center 35%; }
+}
+
 /* ============================================================
    FADE-IN UTILITY
    ============================================================ */
