@@ -444,8 +444,11 @@ a { text-decoration: none; color: inherit; }
   color: var(--cream);
   opacity: 0.8;
 }
+.about--heading {
+  padding-bottom: 1.5rem;
+}
 .about--info {
-  padding-top: 0;
+  padding-top: 0 !important;
 }
 .about-info-col .btn {
   margin-top: 1.5rem;
