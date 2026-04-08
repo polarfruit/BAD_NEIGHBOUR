@@ -1374,9 +1374,6 @@ footer {
   .about-info-cols p { font-size: 0.85rem; line-height: 1.8; }
   .about-text .btn,
   .about-directions-btn {
-    display: block;
-    width: 100%;
-    text-align: center;
     margin-top: 1.25rem;
   }
   .about-venue-photo img { height: 220px; }
