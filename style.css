@@ -445,7 +445,10 @@ a { text-decoration: none; color: inherit; }
   opacity: 0.8;
 }
 .about--heading {
-  padding-bottom: 1.5rem;
+  padding-bottom: 0;
+}
+.about--heading .about-text p:last-of-type {
+  margin-bottom: 0;
 }
 .about--info {
   padding-top: 0 !important;
