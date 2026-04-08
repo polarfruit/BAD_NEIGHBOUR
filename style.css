@@ -444,6 +444,9 @@ a { text-decoration: none; color: inherit; }
   color: var(--cream);
   opacity: 0.8;
 }
+.about--info {
+  padding-top: 0;
+}
 .about-info-col .btn {
   margin-top: 1.5rem;
 }
