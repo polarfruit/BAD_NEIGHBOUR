@@ -462,20 +462,18 @@ a { text-decoration: none; color: inherit; }
   margin-top: 1.5rem;
 }
 
-/* Desktop: Location/Hours left, venue photo right */
+/* Venue photo above, Location/Hours below */
 .about-info {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 2.5rem;
-  align-items: start;
 }
 .about-venue-photo {
   overflow: hidden;
-  height: 100%;
 }
 .about-venue-photo img {
   width: 100%;
-  height: 100%;
+  height: 340px;
   object-fit: cover;
   object-position: center 30%;
   image-rendering: auto;
