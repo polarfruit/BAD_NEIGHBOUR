@@ -730,10 +730,11 @@ a { text-decoration: none; color: inherit; }
 
 .careers-h2 {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 10vw, 7rem);
+  font-size: clamp(3rem, 6vw, 4.5rem);
   line-height: 0.9;
   text-transform: uppercase;
   margin-bottom: 2rem;
+  white-space: nowrap;
 }
 
 /* Intro */
@@ -801,7 +802,7 @@ a { text-decoration: none; color: inherit; }
   .careers-hero h1 { font-size: clamp(3.5rem, 14vw, 6rem); }
   .careers-grid { grid-template-columns: 1fr; }
   .careers-section { padding: 3rem 1.25rem; }
-  .careers-h2 { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .careers-h2 { font-size: clamp(2.5rem, 10vw, 4rem); white-space: normal; }
   .careers-card { padding: 1.5rem; }
   .careers-apply-inner .btn { width: 100%; text-align: center; display: block; }
 }
