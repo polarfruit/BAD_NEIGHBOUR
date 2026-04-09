@@ -377,7 +377,7 @@ a { text-decoration: none; color: inherit; }
 .about {
   background: var(--green);
   color: var(--cream);
-  padding: 6rem 2.5rem;
+  padding: 4rem 2.5rem;
 }
 .about-inner {
   max-width: 1200px;
@@ -387,19 +387,20 @@ a { text-decoration: none; color: inherit; }
   gap: 5rem;
   align-items: start;
 }
-.about-h2-line { display: block; }
+.about-h2-line { display: inline; }
 
 .about-text h2 {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
   text-transform: uppercase;
   color: var(--white);
   line-height: 1.03;
   letter-spacing: -0.02em;
   margin-bottom: 2rem;
+  white-space: nowrap;
 }
 .about-text p {
-  font-size: 1rem;
+  font-size: 1.05rem;
   line-height: 1.8;
   color: var(--cream);
   opacity: 0.85;
@@ -1379,8 +1380,7 @@ footer {
 
   /* About / Find Us — typography consistency */
   .about { padding: 3.5rem 1.25rem; }
-  .about-text h2 { font-size: clamp(2.5rem, 12vw, 3.5rem); margin-bottom: 1.5rem; }
-  .about-h2-line { display: inline; }
+  .about-text h2 { font-size: clamp(2.5rem, 12vw, 3.5rem); margin-bottom: 1.5rem; white-space: normal; }
   .about-text p { font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.6rem; }
   .about-inner {
     grid-template-columns: 1fr;
