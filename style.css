@@ -1547,10 +1547,14 @@ footer {
   opacity: 0.8;
   margin-bottom: 0.75rem;
 }
+.tuktuk-what-list {
+  border: 2px solid rgba(27,52,39,0.12);
+  padding: 2rem 2.5rem;
+}
 .tuktuk-what-list h3 {
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: var(--mid-green);
@@ -1560,9 +1564,9 @@ footer {
   list-style: none;
 }
 .tuktuk-what-list li {
-  font-size: 1rem;
+  font-size: 1.05rem;
   line-height: 1.6;
-  padding: 0.75rem 0;
+  padding: 0.85rem 0;
   border-bottom: 1px solid rgba(27,52,39,0.1);
   position: relative;
   padding-left: 1.5rem;
@@ -1596,7 +1600,7 @@ footer {
 }
 .tuktuk-event-icon {
   display: block;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   margin-bottom: 1rem;
   opacity: 0.6;
 }
@@ -1608,8 +1612,8 @@ footer {
   margin-bottom: 0.5rem;
 }
 .tuktuk-event-card p {
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.7;
   opacity: 0.75;
 }
 
