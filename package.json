@@ -1,8 +1,5 @@
 {
   "name": "bad-neighbour",
   "private": true,
-  "dependencies": {
-    "square": "^38.0.0",
-    "resend": "^4.0.0"
-  }
+  "dependencies": {}
 }
