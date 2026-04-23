@@ -634,6 +634,7 @@ a { text-decoration: none; color: inherit; }
   text-transform: uppercase;
   margin-bottom: 2rem;
 }
+.abt-break { display: block; }
 
 /* Story section — two columns */
 .abt-story { background: var(--cream); color: var(--green); }
@@ -695,7 +696,11 @@ a { text-decoration: none; color: inherit; }
   }
   .abt-team-photo { order: -1; }
   .abt-section { padding: 3rem 1.25rem; }
-  .abt-h2 { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .abt-h2 {
+    font-size: clamp(1.5rem, 7vw, 2.75rem);
+    white-space: nowrap;
+  }
+  .abt-break { display: inline; }
   .abt-findus-btns { flex-direction: column; align-items: center; }
   .abt-findus-btns .btn { width: 100%; text-align: center; }
   .abt-story-photo img,
