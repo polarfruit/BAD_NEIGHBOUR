@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ---------------------------------------------------------- */
   const heroVideo = document.querySelector('.hero-video');
   if (heroVideo && window.matchMedia('(min-width: 769px)').matches) {
-    const SKIP = 2;
+    const SKIP = 3;
     heroVideo.addEventListener('loadedmetadata', () => {
       heroVideo.currentTime = SKIP;
     });
