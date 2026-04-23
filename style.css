@@ -1380,14 +1380,14 @@ footer {
   .nav { padding: 0 1.25rem; }
   .nav-links  { display: none; }
   .nav-burger { display: flex; }
-  .hero-logo { display: none; }
+  .hero-logo-img { width: clamp(220px, 70vw, 360px); }
   .hero-content {
     flex: 1;
-    justify-content: flex-end;
+    justify-content: center;
+    padding-top: 2rem;
     padding-bottom: 0;
-    margin-bottom: -2rem;
   }
-  .hero-tagline { margin-top: 0; font-size: 0.65rem; letter-spacing: 0.3em; }
+  .hero-tagline { margin-top: 1.5rem; font-size: 0.65rem; letter-spacing: 0.3em; }
   .hero-cta { margin-top: 1.25rem; }
 
   /* IG Feed */

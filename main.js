@@ -33,10 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
   renderFooter();
 
   /* ----------------------------------------------------------
-     HERO VIDEO — skip first 1s on laptop/desktop
+     HERO VIDEO — skip first 3s on every device
   ---------------------------------------------------------- */
   const heroVideo = document.querySelector('.hero-video');
-  if (heroVideo && window.matchMedia('(min-width: 769px)').matches) {
+  if (heroVideo) {
     const SKIP = 3;
     heroVideo.addEventListener('loadedmetadata', () => {
       heroVideo.currentTime = SKIP;
