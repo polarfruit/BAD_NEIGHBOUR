@@ -66,7 +66,7 @@ a { text-decoration: none; color: inherit; }
   line-height: 1;
 }
 .nav-logo-img {
-  height: 22px;
+  height: 38px;
   width: auto;
   display: block;
 }
@@ -838,11 +838,14 @@ footer {
   flex-wrap: wrap;
 }
 .footer-logo {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  text-transform: uppercase;
-  color: var(--white);
+  display: flex;
+  align-items: center;
   line-height: 1;
+}
+.footer-logo-img {
+  height: 56px;
+  width: auto;
+  display: block;
 }
 .footer-logo span {
   display: inline;
@@ -1414,8 +1417,7 @@ footer {
 
   /* Footer */
   .footer-top { gap: 1rem; }
-  .footer-logo { font-size: 1.1rem; }
-  .footer-logo span { font-size: 0.5rem; }
+  .footer-logo-img { height: 46px; }
   .footer-meta p { font-size: 0.65rem; line-height: 1.6; }
 
   /* Menu page */
@@ -1469,12 +1471,11 @@ footer {
 
   /* Footer — small phone */
   footer { padding: 2rem 1rem; }
-  .footer-logo { font-size: 0.95rem; }
-  .footer-logo span { font-size: 0.45rem; }
+  .footer-logo-img { height: 40px; }
   .footer-meta p { font-size: 0.6rem; }
 
   /* Nav */
-  .nav-logo-img { height: 18px; }
+  .nav-logo-img { height: 32px; }
   .nav-logo small { font-size: 0.45rem; }
 }
 
