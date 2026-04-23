@@ -5,6 +5,20 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ----------------------------------------------------------
+     HERO VIDEO — skip first 1s on laptop/desktop
+  ---------------------------------------------------------- */
+  const heroVideo = document.querySelector('.hero-video');
+  if (heroVideo && window.matchMedia('(min-width: 769px)').matches) {
+    const SKIP = 1;
+    heroVideo.addEventListener('loadedmetadata', () => {
+      heroVideo.currentTime = SKIP;
+    });
+    heroVideo.addEventListener('timeupdate', () => {
+      if (heroVideo.currentTime < SKIP) heroVideo.currentTime = SKIP;
+    });
+  }
+
+  /* ----------------------------------------------------------
      MOBILE NAV
   ---------------------------------------------------------- */
   const burger  = document.querySelector('.nav-burger');
