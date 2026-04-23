@@ -99,13 +99,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.nav-links a, .nav-overlay a').forEach(link => {
     const href = link.getAttribute('href');
     if (!href) return;
-    if (path.endsWith('menu.html') && href.includes('menu.html')) {
+    if (path === '/menu' && href === '/menu') {
       link.classList.add('active');
-    } else if (path.endsWith('about.html') && href.includes('about.html')) {
+    } else if (path === '/about' && href === '/about') {
       link.classList.add('active');
-    } else if (path.endsWith('careers.html') && href.includes('careers.html')) {
+    } else if (path === '/careers' && href === '/careers') {
       link.classList.add('active');
-    } else if ((path === '/' || path.endsWith('index.html') || path === '') && href.includes('index.html')) {
+    } else if ((path === '/' || path === '') && href === '/') {
       link.classList.add('active');
     }
   });
