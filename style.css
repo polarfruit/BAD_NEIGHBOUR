@@ -868,6 +868,11 @@ footer {
   position: relative;
   top: -0.3em;
 }
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
 .footer-ig {
   color: var(--cream);
   opacity: 0.6;
