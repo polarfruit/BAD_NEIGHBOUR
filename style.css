@@ -821,6 +821,16 @@ a { text-decoration: none; color: inherit; }
 }
 .careers-apply-email:hover { opacity: 0.7; }
 
+/* Full-width photo band between sections */
+.careers-photo-band { width: 100%; overflow: hidden; background: var(--green); }
+.careers-photo-band img {
+  width: 100%;
+  height: clamp(300px, 45vh, 520px);
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
 @media (max-width: 768px) {
   .careers-hero { min-height: 60vh; padding: calc(var(--nav-h) + 3rem) 1.25rem 3rem; }
   .careers-hero h1 { font-size: clamp(3.5rem, 14vw, 6rem); }
@@ -829,6 +839,7 @@ a { text-decoration: none; color: inherit; }
   .careers-h2 { font-size: clamp(2.5rem, 10vw, 4rem); white-space: normal; }
   .careers-card { padding: 1.5rem; }
   .careers-apply-inner .btn { width: 100%; text-align: center; display: block; }
+  .careers-photo-band img { height: clamp(220px, 40vh, 360px); }
 }
 
 /* ============================================================
