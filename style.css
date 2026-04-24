@@ -49,7 +49,7 @@ a { text-decoration: none; color: inherit; }
 .nav {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 200;
+  z-index: 300;
   background: var(--green);
   display: flex;
   align-items: center;
@@ -57,6 +57,7 @@ a { text-decoration: none; color: inherit; }
   padding: 0 2.5rem;
   height: var(--nav-h);
   border-bottom: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
 }
 
 .nav-logo {
@@ -116,7 +117,7 @@ a { text-decoration: none; color: inherit; }
   background: none;
   border: none;
   padding: 6px;
-  z-index: 201;
+  z-index: 301;
 }
 .nav-burger span {
   display: block;
@@ -135,7 +136,7 @@ a { text-decoration: none; color: inherit; }
   position: fixed;
   inset: 0;
   background: var(--green);
-  z-index: 199;
+  z-index: 299;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -825,7 +826,7 @@ a { text-decoration: none; color: inherit; }
 .careers-photo-band { width: 100%; overflow: hidden; background: var(--green); }
 .careers-photo-band img {
   width: 100%;
-  height: clamp(300px, 45vh, 520px);
+  height: clamp(420px, 70vh, 760px);
   object-fit: cover;
   object-position: center;
   display: block;
@@ -839,7 +840,7 @@ a { text-decoration: none; color: inherit; }
   .careers-h2 { font-size: clamp(2.5rem, 10vw, 4rem); white-space: normal; }
   .careers-card { padding: 1.5rem; }
   .careers-apply-inner .btn { width: 100%; text-align: center; display: block; }
-  .careers-photo-band img { height: clamp(220px, 40vh, 360px); }
+  .careers-photo-band img { height: clamp(320px, 55vh, 520px); }
 }
 
 /* ============================================================
