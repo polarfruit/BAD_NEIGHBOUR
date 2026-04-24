@@ -188,6 +188,15 @@ a { text-decoration: none; color: inherit; }
   background: var(--cream);
   color: var(--green);
 }
+.btn-outline-green {
+  color: var(--green);
+  background: transparent;
+  border-color: var(--green);
+}
+.btn-outline-green:hover {
+  background: var(--green);
+  color: var(--cream);
+}
 .btn-filled-cream {
   color: var(--green);
   background: var(--cream);
