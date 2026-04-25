@@ -452,6 +452,13 @@ a { text-decoration: none; color: inherit; }
   color: var(--cream);
   opacity: 0.8;
 }
+.hours-holiday-note {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--cream);
+  opacity: 0.6;
+}
 /* Find Us — two-column: all text left, photo right */
 .about--findus {
   padding: 4rem 2.5rem;
